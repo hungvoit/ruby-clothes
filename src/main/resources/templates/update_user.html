@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g==" crossorigin="anonymous"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.bundle.min.js" integrity="sha512-mULnawDVcCnsk9a4aG1QLZZ6rcce/jSzEGqUkeOLy0b6q0+T6syHrxlsAGH7ZVoqC93Pd0lBqd6WguPWih7VHA==" crossorigin="anonymous"></script>
+    <title>Users Management System</title>
+</head>
+<body>
+<div class="container">
+    <h1>Update user</h1>
+    <form action="#" th:action="@{/saveUser}" th:object="${user}" method="POST">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="text" th:field="*{firstName}" placeholder="First Name" class="form-control col-4"/>
+        <input type="text" th:field="*{lastName}" placeholder="Last Name" class="form-control col-4"/>
+        <input type="text" th:field="*{email}" placeholder="Email Name" class="form-control col-4"/>
+        <button type="submit" class="btn btn-success col-2">Save User</button>
+    </form>
+    <a th:href="@{/}" class="btn btn-secondary">Back List User</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<head th:replace="fragments/header.html :: extention">
+    <style th:fragment="menuStyle">
+        a{
+            text-decoration: none;
+            transition: all 0.6s ease;
+        }
+        a:hover{
+            transition: all 0.6s ease;
+        }
+        .app{
+            height: 100vh;
+        }
+        .sidebar {
+            position: absolute;
+            height: 100%;
+            top: 0;
+            overflow: hidden;
+            background-color: #19222a;
+            visibility: visible;
+            -webkit-transform: translateZ(0);
+            opacity: 0.9;
+        }
+        header{
+            background: linear-gradient(to right, #FFD54F, #D500F9);
+            width: 100%;
+            display:block;
+            padding: 0.75em 1em;
+        }
+        .sidebar-nav {
+            position: fixed;
+            background-color: #661a4f;
+            height: 100%;
+            font-weight: 400;
+            font-size: 1.2em;
+            z-index: 9;
+            width: 100%;
+            overflow: hidden;
+        }
+        ul {
+            list-style: none;
+            display: block;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin-left: 0;
+            padding-left: 0;
+            display: inline-block;
+            width: 100%;
+        }
+        ul li a {
+            color: #ffffffe6;
+            padding: .5em .7em;
+            position: relative;
+            display: block;
+        }
+        ul li a:hover{
+            background: linear-gradient(to right, #FFD54F, #D500F9);
+            transition: all 0.6s ease;
+            border-top: 1px solid white;
+            text-decoration: none;
+            color: white;
+        }
+        ul li i{
+            font-size: 1.8em;
+            padding-right: 0.5em;
+            width: 9em;
+            display: inline;
+            vertical-align:middle;
+        }
+        .sidebar-nav > ul > li > a:after {
+            content: '\f125';
+            font-family: ionicons;
+            font-size: 0.8em;
+            width: 10px;
+            color: #fff;
+            position: absolute;
+            right: 0.75em;
+            top: 30%;
+        }
+        .sidebar-nav .nav-flyout {
+            position: absolute;
+            background-color: #080D11;
+            z-index: 9;
+            left: 3em;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            transform: translateX(83%);
+            transition: all 0.5s ease;
+        }
+        .sidebar-nav ul > li:hover .nav-flyout{
+            transform: translateX(0);
+            transition: all 0.5s ease;
+        }
+        .active {
+            background: linear-gradient(to right, #FFD54F, #D500F9);
+            border-top: 1px solid white;
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="menuAdmin(item)" th:remove="tag">
+        <div class="app col-2 p-0">
+            <div class="sidebar">
+                <header>
+                    <div class="d-flex align-center">
+                        <img class="logo-profile" src="https://gravatar.com/avatar/4474ca42d303761c2901fa819c4f2547">
+                        <div class="ml-2" style="color: white;">
+                            <span class="font-weight-bold" sec:authentication="principal.username"></span>
+                            <span>Admin</span>
+                        </div>
+                    </div>
+                </header>
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li>
+                            <a href="#" th:classappend="${item == 'global'} ? 'active' "><i class="ion-bag"></i> <span>System Operator</span></a>
+                            <ul class="nav-flyout">
+                                <li>
+                                    <a th:href="@{/global/}"><i class="ion-settings"></i>Config Global</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

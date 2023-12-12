@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<head th:replace="fragments/header.html :: extention">Header extention</head>
+<body>
+    <div class="row m-0">
+        <div th:replace="fragments/menu_left.html :: menuAdmin('global')">Menu Admin</div>
+        <div class="col-10 p-0">
+            <div class="container">
+                <div th:if="${param.success}" class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                    <span >You're successfully create new configuration.</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="panel">
+                    <div th:replace="fragments/table.html :: tableAction('global')">Table Action</div>
+                    <div class="panel-body table-responsive">
+                        <table class="table">
+                            <thead th:replace="fragments/table.html :: tableHeader(~{ :: .globalFields})">
+                                <tr class="globalFields">
+                                    <th>Code</th>
+                                    <th>Value</th>
+                                    <th>Description</th>
+                                    <th>Creation Time</th>
+                                    <th>Updated Time</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody th:replace="fragments/table.html :: tableBody(tableData=${listGlobal}, sizeCols=6)">Table body</tbody>
+                        </table>
+                    </div>
+                    <div th:replace="fragments/table.html :: tablePaging('/global/list')">Table paging</div>
+                </div>
+            </div>
+        </div>
+        <th:block th:replace="fragments/modal.html :: modal(tabName='global', url='/global/saveGlobal', dataObj='global')">Modal</th:block>
+    </div>
+</body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:inline="javascript">
+    $('#theModal_global').on("hidden.bs.modal", function(){
+        $(this).find('form').trigger('reset');
+    });
+</script>
+</html>

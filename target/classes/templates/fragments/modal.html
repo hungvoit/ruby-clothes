@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header.html :: extention"></head>
+<body>
+  <div th:fragment="modal(tabName, url, dataObj)" th:remove="tag">
+     <div class="modal fade" th:id="'theModal_' + ${tabName}" tabindex="-1" role="dialog" aria-labelledby="theModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center modal-background">
+                    <h4 class="modal-title w-100 font-weight-bold">Create New</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="#" th:action="@{__${url}__}" th:object="${__${dataObj}__}" method="POST">
+                    <div class="modal-body mx-3">
+                        <div class="md-form">
+                            <i class="fas fa-key prefix grey-text"></i>
+                            <input type="text" th:field="*{code}" placeholder="Code" class="form-control"/>
+                            <span th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="error-message">Validation error</span>
+                        </div>
+                        <div class="md-form">
+                            <i class="fas fa-file-signature prefix grey-text"></i>
+                            <input type="text" th:field="*{value}" placeholder="Value" class="form-control"/>
+                            <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}" class="error-message">Validation error</span>
+                        </div>
+                        <div class="md-form">
+                            <i class="fas fa-bookmark prefix grey-text"></i>
+                            <input type="text" th:field="*{description}" placeholder="Description" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center modal-background">
+                        <button type="submit" class="btn btn-pink p-3"><i class="fas fa-save"></i> Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+     </div>
+  </div>
+</body>
+</html>
