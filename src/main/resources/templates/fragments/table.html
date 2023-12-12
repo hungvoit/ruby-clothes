@@ -102,7 +102,7 @@
         }
         .pagination .disabled {
             color: #cacaca;
-            cursor: default;
+            cursor: not-allowed;
         }
         .pagination li {
             display: flex;
@@ -155,7 +155,7 @@
                             <div class="btn_group">
                                 <input type="text" class="form-control" placeholder="Search" >
                                 <button class="btn btn-pink"><i class="ion-ios-refresh"></i></button>
-                                <button class="btn btn-pink" data-toggle="modal" th:attr="data-target='#theModal_'+${item}" ><i class="ion-android-add-circle"></i></button>
+                                <button class="btn btn-pink" th:onclick="'javascript:openAddModal();'"><i class="ion-android-add-circle"></i></button>
                             </div>
                         </div>
                     </div>
@@ -173,8 +173,8 @@
                             <td th:text="${row.createDate}">Creation Time</td>
                             <td th:text="${row.updateDate}">Updated Time</td>
                             <td>
-                                <a href="#" class="btn btn-pink action" th:href="@{/global/findByCode/{code} (code=${row.code})}" data-toggle="modal" th:attr="data-target='#theModal_global'+${item}"><i class="fas fa-pencil"></i></a>
-                                <a href="#" class="btn btn-pink action"><i class="fas fa-trash-can"></i></a>
+                                <a class="btn btn-pink action" th:onclick="'javascript:openEditModal(\''+ __${row.code}__ + '\');'"><i class="fas fa-pencil"></i></a>
+                                <a class="btn btn-pink action" th:onclick="'javascript:openDeleteModal(\''+ __${row.code}__ + '\');'"><i class="fas fa-trash-can"></i></a>
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(tableData)}">
@@ -183,7 +183,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="panel-footer" th:fragment="tablePaging(itemName)">
+                <div class="panel-footer" th:fragment="tablePaging(itemName, tableData)" th:unless="${#lists.isEmpty(tableData)}">
                     <div class="row">
                         <div class="col-5">Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]</div>
                         <div class="col-7">

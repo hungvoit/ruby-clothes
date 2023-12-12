@@ -20,6 +20,10 @@ body {
  cursor: pointer;
 }
 
+.c-not-allow {
+  cursor: not-allowed;
+}
+
 .custom-btn {
   border-radius: 50px;
   color: #fff;
@@ -55,6 +59,16 @@ body {
   z-index: 10;
   top: 7px;
   left: 10px;
+}
+
+.icon-info {
+  border-radius: 100%;
+  border: 1px solid;
+  padding: 5px;
+  width: 2em;
+  text-align: center;
+  background: pink;
+  color: white;
 }
 
 .logo-profile {

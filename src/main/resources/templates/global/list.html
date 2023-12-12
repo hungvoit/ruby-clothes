@@ -6,8 +6,8 @@
         <div th:replace="fragments/menu_left.html :: menuAdmin('global')">Menu Admin</div>
         <div class="col-10 p-0">
             <div class="container">
-                <div th:if="${param.success}" class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-                    <span >You're successfully create new configuration.</span>
+                <div th:if="${message != null}" class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                    <span>[[${message}]]</span>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -29,19 +29,61 @@
                             <tbody th:replace="fragments/table.html :: tableBody(tableData=${listGlobal}, sizeCols=6)">Table body</tbody>
                         </table>
                     </div>
-                    <div th:replace="fragments/table.html :: tablePaging('/global/list')">Table paging</div>
+                    <div th:replace="fragments/table.html :: tablePaging('global/list', ${listGlobal})">Table paging</div>
                 </div>
             </div>
         </div>
-        <th:block th:replace="fragments/modal.html :: modal(tabName='global', url='/global/saveGlobal', dataObj='global')">Modal</th:block>
+        <!--Modal-->
+        <div th:fragment="modal-add" id="addModalHolder"></div>
+        <div th:fragment="modal-edit" id="editModalHolder"></div>
+        <div th:fragment="modal-del" id="delModalHolder"></div>
     </div>
 </body>
 <script th:src="@{/js/jquery.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:inline="javascript">
-    $('#theModal_global').on("hidden.bs.modal", function(){
-        $(this).find('form').trigger('reset');
-    });
+    function openAddModal(){
+        $.ajax({
+            type:'GET',
+            url: "/modal-add",
+            data:{ tabName: 'global'},
+            success: function(data){
+                $("#addModalHolder").html(data);
+                $('#addModal_global').modal({
+                    backdrop: 'static'
+                });
+            }
+        });
+    }
+
+    function openEditModal(id){
+        $.ajax({
+            type:'GET',
+            url: "/modal-edit/" + id,
+            data:{ tabName: 'global'},
+            success: function(data){
+                $("#editModalHolder").html(data);
+                $('#editModal_global').modal({
+                    backdrop: 'static'
+                });
+            }
+        });
+    }
+
+    function openDeleteModal(id){
+        $.ajax({
+            type:'GET',
+            url: "/modal-del/" + id,
+            data:{ tabName: 'global'},
+            success: function(data){
+                $("#delModalHolder").html(data);
+                $('#delModal_global').modal({
+                    backdrop: 'static'
+                });
+
+            }
+        });
+    }
 </script>
 </html>

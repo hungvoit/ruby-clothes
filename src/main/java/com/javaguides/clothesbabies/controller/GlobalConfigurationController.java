@@ -23,11 +23,6 @@ public class GlobalConfigurationController {
     @Autowired
     GlobalConfigurationService globalConfigurationService;
 
-    @ModelAttribute(name = "global")
-    public GlobalConfigurationDto globalConfigurationDto() {
-        return new GlobalConfigurationDto();
-    }
-
     @RequestMapping(value={"/","/list"}, method = RequestMethod.GET)
     public String listGlobalConfig(Model model) {
         return findPaginated(1,  model);
@@ -48,19 +43,32 @@ public class GlobalConfigurationController {
         return "global/list";
     }
 
-    @RequestMapping(value = "/findByCode/{code}", method = RequestMethod.GET)
-    public GlobalConfiguration findByCode(@PathVariable(value = "code") String code, Model model) {
-        GlobalConfiguration globalConfiguration = this.globalConfigurationService.findByCode(code);
-        model.addAttribute("global", globalConfiguration);
-        return globalConfiguration;
-    }
-
     @PostMapping("/saveGlobal")
-    public String saveGlobal(@ModelAttribute(name = "global") @Valid GlobalConfigurationDto globalConfigurationDto, BindingResult result) {
+    public String saveGlobal(@ModelAttribute(name = "initData") @Valid GlobalConfigurationDto globalConfigurationDto,
+                             BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "redirect:/global/list";
         }
         this.globalConfigurationService.createConfig(globalConfigurationDto);
-        return "redirect:/global/list?success";
+        model.addAttribute("message", "You're successfully create new configuration.");
+        return "redirect:/global/list";
+    }
+
+    @PostMapping("/updGlobal")
+    public String updGlobal(@ModelAttribute(name = "editData") @Valid GlobalConfigurationDto globalConfigurationDto,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "redirect:/global/list";
+        }
+        this.globalConfigurationService.updateConfig(globalConfigurationDto);
+        model.addAttribute("message", "You're successfully update configuration.");
+        return "redirect:/global/list";
+    }
+
+    @PostMapping(value="/delGlobal/{id}")
+    public String deleteGlobal(@PathVariable("id") String id, Model model) {
+        this.globalConfigurationService.deleteConfig(id);
+        model.addAttribute("message", "You're successfully delete configuration.");
+        return "redirect:/global/list";
     }
 }

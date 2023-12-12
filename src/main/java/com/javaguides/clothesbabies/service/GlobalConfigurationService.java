@@ -11,4 +11,8 @@ public interface GlobalConfigurationService {
     GlobalConfiguration findByCode(String code);
 
     void createConfig(GlobalConfigurationDto request);
+
+    void updateConfig(GlobalConfigurationDto request);
+
+    void deleteConfig(String code);
 }

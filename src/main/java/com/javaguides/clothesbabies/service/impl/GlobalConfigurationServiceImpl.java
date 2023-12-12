@@ -41,14 +41,36 @@ public class GlobalConfigurationServiceImpl implements GlobalConfigurationServic
     @Override
     public void createConfig(GlobalConfigurationDto request) {
         GlobalConfiguration config = this.globalConfigurationRepository.findByCode(request.getCode());
-        if(Objects.nonNull(config)){
+        if (Objects.nonNull(config)){
             throw new NoSuchElementException("Config with key: " + request.getCode() + " already exist");
         }
         config = new GlobalConfiguration();
         BeanUtils.copyProperties(request, config);
         config.setCreateDate(new Date());
         config.setUpdateDate(new Date());
-        globalConfigurationRepository.save(config);
+        this.globalConfigurationRepository.save(config);
+    }
+
+    @Override
+    public void updateConfig(GlobalConfigurationDto request) {
+        GlobalConfiguration config = this.globalConfigurationRepository.findByCode(request.getCode());
+        if (Objects.isNull(config)){
+            throw new NoSuchElementException("Config with key: " + request.getCode() + " existn't");
+        }
+        config.setValue(request.getValue());
+        config.setDescription(request.getDescription());
+        config.setUpdateDate(new Date());
+        this.globalConfigurationRepository.save(config);
+    }
+
+
+    @Override
+    public void deleteConfig(String code) {
+        GlobalConfiguration config = this.globalConfigurationRepository.findByCode(code);
+        if (Objects.isNull(config)){
+            throw new NoSuchElementException("Config with key: " + code + " existn't");
+        }
+        this.globalConfigurationRepository.delete(config);
     }
 
 
