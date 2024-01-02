@@ -12,11 +12,12 @@ public class ClothesBabiesApplication {
         SpringApplication.run(ClothesBabiesApplication.class, args);
     }
 
-    @Bean(name="messageSource")
+    @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:messages");
-        messageSource.setCacheSeconds(10);
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(10); //reload messages every 10 seconds
         return messageSource;
     }
 }

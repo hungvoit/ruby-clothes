@@ -6,12 +6,97 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+    <!-- MDB style -->
     <link rel="stylesheet" th:href="@{/css/mdb.min.css}">
+    <!-- Custom style -->
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <style th:replace="fragments/menu_left.html :: menuStyle"></style>
     <style th:replace="fragments/table.html :: tableStyle"></style>
+    <style>
+        .dropdown-item {
+            padding: 6px !important;
+            font-size: 14px !important;
+        }
+
+        @media (min-width: 576px) {
+            #content-page .navbar-expand-lg .navbar-collapse {
+                display: flex!important;
+                flex-basis: auto;
+            }
+            #content-page .navbar-expand-lg .navbar-nav {
+                flex-direction: row;
+            }
+        }
+
+        @media (max-width: 576px) {
+            #navbarSupportedContent ul li a.nav-link {
+                float: right;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!--Fragment header-->
+    <!--Fragment header top admin-->
+    <nav class="navbar navbar-expand-lg navbar-light white fix-header" th:fragment="headerNavTop">
+        <div class="container-fluid">
+            <button type="button" id="sidebarCollapse" class="btn btn-pink">
+                <i class="fa fa-bars"></i>
+                <span class="sr-only">Toggle Menu</span>
+            </button>
+            <button class="btn btn-lime d-inline-block d-sm-none ml-auto" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <!--Search bar-->
+                    <li class="nav-item">
+                        <div class="input-group">
+                            <input class="form-control" type="search" th:placeholder="#{label.search}" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-pink m-0 px-2">
+                                    <i class="fas fa-search fa-fw"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                            <span th:switch="__${#locale.language}__">
+                                <img th:case="vi" class="img-size-30" src="" th:src="@{/images/flags/flag_VN.png}">
+                                <img th:case="en" class="img-size-30" src="" th:src="@{/images/flags/flag_USA.png}">
+                                <img th:case="zh" class="img-size-30" src="" th:src="@{/images/flags/flag_ZH.png}">
+                                <img th:case="ko" class="img-size-30" src="" th:src="@{/images/flags/flag_KO.png}">
+                                <img th:case="ja" class="img-size-30" src="" th:src="@{/images/flags/flag_JP.png}">
+                                <img th:case="*" class="img-size-30" src="" th:src="@{/images/flags/flag_USA.png}">
+                            </span>
+                            <!--<i class="ion-earth cus-fa-1x pink-text"><span class="fa-xs font-weight-bold ml-2" th:text="${#strings.toUpperCase(#locale)}"></span></i>-->
+                        </a>
+                        <div class="dropdown-menu" style="right: 0; left: auto;" th:with="currentUrl=(${'~' + #httpServletRequest.requestURI})">
+                            <span class="ml-2 font-weight-bold">[[#{label.choose.lng}]]</span>
+                            <a class="dropdown-item" th:href="@{${currentUrl}(lng=en)}">English - EN</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" th:href="@{${currentUrl}(lng=ko)}">한국어 - KO</a>
+                            <a class="dropdown-item" th:href="@{${currentUrl}(lng=zh)}">中文 (简体) - ZH</a>
+                            <a class="dropdown-item" th:href="@{${currentUrl}(lng=ja)}">日本 - JP</a>
+                            <a class="dropdown-item" th:href="@{${currentUrl}(lng=vi)}">Tiếng Việt - VN</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/logout}" ><i class="ion-power cus-fa-1x pink-text"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--Fragment header top admin-->
+    <nav class="navbar navbar-expand-lg navbar-light white fix-header" th:fragment="footerNav">
+        <div class="container-fluid p-3 justify-center">
+            <div class="font-weight-bold pink-text">
+                <span th:text="#{msg.footer}"></span>
+            </div>
+        </div>
+    </nav>
 </body>
 </html>

@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.bundle.min.js"></script>
     <style>
         .container {
             display: flex;
@@ -22,6 +21,11 @@
             opacity: 0.9;
             flex: 1;
         }
+
+        .disabled {
+            color: #cacaca;
+            cursor: not-allowed !important;
+        }
     </style>
 </head>
 <body class="h-100">
@@ -29,66 +33,89 @@
     <div class="container">
         <div class="row p-2 content-form">
             <div class="col-6 card-body">
-                <h3 class="text-center font-weight-bold">Registration</h3>
+                <h3 class="text-center font-weight-bold" th:text="#{label.registration}">Registration</h3>
                 <div class="d-flex justify-center">
                     <img th:src="@{/images/logo-shop.png}" width="150" height="150">
                 </div>
-                <form action="#" th:action="@{/registration}" th:object="${user}" method="POST">
-                    <p th:if="${param.success}" class="alert alert-info text-center"><span>You're successfully registered to our awesome app!</span></p>
-                    <p class="error-message" th:if="${#fields.hasGlobalErrors()}" th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>
-                    <div class="row">
-                        <fieldset class="form-group col-12 mb-0">
-                            <label for="firstName" class="font-weight-bold">First Name</label><span class="text-danger">*</span>
-                            <div class="input-group">
-                                <span class="input-group-addon pos-icon"><i class="fa-solid fa-user-pen"></i></span>
-                                <input type="text" id="firstName" th:field="*{firstName}"
-                                       class="form-control mb-2" style="padding-left: 35px;" th:classappend="${#fields.hasErrors('firstName')} ? 'has-error': '' " autocomplete="off" autofocus="autofocus" placeholder="First Name">
-                            </div>
-                            <ul th:if="${#fields.hasErrors('firstName')}" class="error-message">
-                                <li th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</li>
-                            </ul>
-                        </fieldset>
-                        <fieldset class="form-group col-12 mb-0">
-                            <label for="lastName" class="font-weight-bold">Last Name</label><span class="text-danger">*</span>
-                            <div class="input-group">
-                                <span class="input-group-addon pos-icon"><i class="fa-solid fa-user-pen"></i></span>
-                                <input type="text" id="lastName" th:field="*{lastName}"
-                                       class="form-control mb-2" style="padding-left: 35px;" th:classappend="${#fields.hasErrors('lastName')} ? 'has-error': '' " autocomplete="off" autofocus="autofocus" placeholder="Last Name">
-                            </div>
-                            <ul th:if="${#fields.hasErrors('lastName')}" class="error-message">
-                                <li th:each="error: ${#fields.errors('lastName')}" th:text="${error}">Validation error</li>
-                            </ul>
-                        </fieldset>
+                <div th:if="${param.success}" class="text-center">
+                    <h5 class="font-weight-bold" th:text="#{label.success}">SUCCESS</h5>
+                    <table class="table table-striped">
+                        <tr th:each="entry: ${listOfRegisterMap}">
+                            <td class="font-weight-bold" th:text="${entry.key}"></td>
+                            <td th:text="${entry.value}"></td>
+                        </tr>
+                    </table>
+                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                        <i class="fas fa-info icon-info"></i>
+                        <span th:text="#{msg.created.user}"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="row">
-                        <fieldset class="form-group col-12 mb-0">
-                            <label for="password" class="font-weight-bold">Password</label><span class="text-danger">*</span>
-                            <div class="input-group">
-                                <span class="input-group-addon pos-icon"><i class="fa fa-key"></i></span>
-                                <input type="text" id="password" th:field="*{password}"
-                                       class="form-control mb-2" style="padding-left: 35px;" th:classappend="${#fields.hasErrors('password')} ? 'has-error': '' " autocomplete="off" autofocus="autofocus" placeholder="Password">
-                            </div>
-                            <ul th:if="${#fields.hasErrors('password')}" th:each="error: ${#fields.errors('password')}" class="error-message m-0">
-                                <li th:each="message : ${error.split(',')}" th:text="${message}">Validation error</li>
-                            </ul>
+                    <a class="btn btn-lg custom-btn" th:href="@{/login}"><i class="fa fa-sign-in mr-2"></i>[[#{label.login}]]</a>
+                </div>
+                <div th:unless="${param.success}">
+                    <form action="#" th:action="@{/registration}" th:object="${user}" method="POST" id="frm-confirm">
+                        <!--<p class="error-message" th:if="${#fields.hasGlobalErrors()}"-->
+                           <!--th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>-->
+                        <div class="row">
+                            <fieldset class="form-group col-12 mb-0">
+                                <label for="firstName" class="font-weight-bold">[[#{label.firstName}]]</label><span class="text-danger">*</span>
+                                <div class="input-group">
+                                    <span class="input-group-addon pos-icon"><i class="fa-solid fa-user-pen"></i></span>
+                                    <input type="text" id="firstName" th:field="*{firstName}"
+                                           class="form-control mb-2" style="padding-left: 35px;" th:classappend="${#fields.hasErrors('firstName')} ? 'has-error': '' "
+                                           autocomplete="off" autofocus="autofocus" th:placeholder="#{label.firstName}">
+                                </div>
+                                <ul th:if="${#fields.hasErrors('firstName')}" class="error-message">
+                                    <li th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</li>
+                                </ul>
+                            </fieldset>
+                            <fieldset class="form-group col-12 mb-0">
+                                <label for="lastName" class="font-weight-bold">[[#{label.lastName}]]</label><span class="text-danger">*</span>
+                                <div class="input-group">
+                                    <span class="input-group-addon pos-icon"><i class="fa-solid fa-user-pen"></i></span>
+                                    <input type="text" id="lastName" th:field="*{lastName}"
+                                           class="form-control mb-2" style="padding-left: 35px;" th:classappend="${#fields.hasErrors('lastName')} ? 'has-error': '' "
+                                           autocomplete="off" autofocus="autofocus" th:placeholder="#{label.lastName}">
+                                </div>
+                                <ul th:if="${#fields.hasErrors('lastName')}" class="error-message">
+                                    <li th:each="error: ${#fields.errors('lastName')}" th:text="${error}">Validation error</li>
+                                </ul>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset class="form-group col-12 mb-0">
+                                <label for="phone" class="font-weight-bold">[[#{label.phone}]]</label><span class="text-danger">*</span>
+                                <div class="input-group">
+                                    <span class="input-group-addon pos-icon"><i class="fa-solid fa-phone"></i></span>
+                                    <input type="text" id="phone" th:field="*{phone}" data-inputmask="'mask': '+99 999 999 999', 'showMaskOnHover': false, 'placeholder': '#'"
+                                           class="form-control mb-2" style="padding-left: 35px;" th:classappend="${#fields.hasErrors('phone')} ? 'has-error': '' "
+                                           autocomplete="off" autofocus="autofocus" th:placeholder="#{label.phone}">
+                                </div>
+                                <ul th:if="${#fields.hasErrors('phone')}" class="error-message">
+                                    <li th:each="error: ${#fields.errors('phone')}" th:text="${error}">Validation error</li>
+                                </ul>
+                            </fieldset>
+                            <fieldset class="form-group col-12 mb-0">
+                                <label for="email" class="font-weight-bold">[[#{label.email}]]</label><span class="text-danger">*</span>
+                                <div class="input-group">
+                                    <span class="input-group-addon pos-icon"><i class="fa-solid fa-at"></i></span>
+                                    <input type="text" id="email" th:field="*{email}" data-inputmask="'alias': 'email', 'showMaskOnHover': false"
+                                           class="form-control mb-2" style="padding-left: 35px;" th:classappend="${#fields.hasErrors('email')} ? 'has-error': '' "
+                                           autocomplete="off" autofocus="autofocus" th:placeholder="#{label.email}">
+                                </div>
+                                <ul th:if="${#fields.hasErrors('email')}" class="error-message">
+                                    <li th:each="error: ${#fields.errors('email')}" th:text="${error}">Validation error</li>
+                                </ul>
+                            </fieldset>
+                        </div>
+                        <fieldset class="form-group mt-1">
+                            <button type="submit" id="btnRegister" class="btn custom-btn"><i class="fa fa-user-plus mr-2"></i>[[#{label.registration}]]</button>
+                            <p class="text-center mt-1">[[#{label.already.registered}]]? <a th:href="@{/login}">[[#{link.login}]]</a></p>
                         </fieldset>
-                        <fieldset class="form-group col-12 mb-0">
-                            <label for="email" class="font-weight-bold">Email</label><span class="text-danger">*</span>
-                            <div class="input-group">
-                                <span class="input-group-addon pos-icon"><i class="fa-solid fa-at"></i></span>
-                                <input type="text" id="email" th:field="*{email}"
-                                       class="form-control mb-2" style="padding-left: 35px;" th:classappend="${#fields.hasErrors('email')} ? 'has-error': '' " autocomplete="off" autofocus="autofocus" placeholder="Email">
-                            </div>
-                            <ul th:if="${#fields.hasErrors('email')}" class="error-message">
-                                <li th:each="error: ${#fields.errors('email')}" th:text="${error}">Validation error</li>
-                            </ul>
-                        </fieldset>
-                    </div>
-                    <fieldset class="form-group mt-1">
-                        <button type="submit" class="btn btn-lg custom-btn"><i class="fa fa-user-plus mr-2"></i>Register</button>
-                        <p class="text-center mt-1">Already Registered? <a th:href="@{/login}">Login Here</a></p>
-                    </fieldset>
-                </form>
+                    </form>
+                </div>
             </div>
             <div class="col-6 p-0">
                 <img class="w-100" style="min-height: 100%" th:src="@{/images/login_banner_left.webp}">
@@ -96,4 +123,35 @@
         </div>
     </div>
 </body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/jquery.inputmask.min.js}"></script>
+<script>
+    $(":input").inputmask();
+    $(document).ready(function() {
+        $('#btnRegister').on('click', function() {
+            var msgTran = '[[#{label.processing}]]';
+            //double submit
+            var idForm = $('#frm-confirm');
+            if (idForm.attr('submitted')){
+                event.preventDefault();
+            } else {
+                idForm.attr('submitted',true);
+            }
+
+            //Processing loading
+            var $this = $(this);
+            var loadingText = '<i class="fa fa-spinner fa-spin"></i> ' + msgTran;
+            if ($(this).html() !== loadingText) {
+                $this.data('original-text', $(this).html());
+                $this.html(loadingText);
+                $this.addClass("disabled");
+            }
+            setTimeout(function() {
+                $this.html($this.data('original-text'));
+                $this.removeClass("disabled");
+            }, 10000);
+        });
+    });
+</script>
 </html>

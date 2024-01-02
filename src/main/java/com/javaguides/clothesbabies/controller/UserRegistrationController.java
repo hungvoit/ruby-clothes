@@ -1,6 +1,6 @@
 package com.javaguides.clothesbabies.controller;
 
-import com.javaguides.clothesbabies.dto.UserRegistrationDto;
+import com.javaguides.clothesbabies.dto.UserDto;
 import com.javaguides.clothesbabies.service.UserService;
 import com.javaguides.clothesbabies.service.ValidationService;
 import org.springframework.stereotype.Controller;
@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 @Controller
@@ -29,8 +33,8 @@ public class UserRegistrationController {
     }
 
     @ModelAttribute(name = "user")
-    public UserRegistrationDto userRegistrationDto() {
-        return new UserRegistrationDto();
+    public UserDto userDto() {
+        return new UserDto();
     }
 
     @GetMapping
@@ -39,13 +43,20 @@ public class UserRegistrationController {
     }
 
     @PostMapping
-    public String registerUserAccount(@ModelAttribute(name = "user") @Valid UserRegistrationDto registrationDto, BindingResult result) {
-        result = this.validationService.validateUser(registrationDto, result);
+    public String registerUserAccount(@ModelAttribute(name = "user") @Valid UserDto userDto,
+            BindingResult result, RedirectAttributes redirectAttributes) {
+        result = this.validationService.validateUser(userDto, result, "user", true);
         if (result.hasErrors()) {
             return "registration";
         }
-
-        this.userService.saveUser(registrationDto);
+        this.userService.createUser(userDto);
+        Map<String, String> listOfRegisterMap = new HashMap<>();
+        listOfRegisterMap.put("Email", userDto.getEmail());
+        listOfRegisterMap.put("Phone", userDto.getPhone());
+        listOfRegisterMap.put("Last Name", userDto.getLastName());
+        listOfRegisterMap.put("First Name", userDto.getFirstName());
+        TreeMap<String, String> sortMap = new TreeMap<>(listOfRegisterMap);
+        redirectAttributes.addFlashAttribute("listOfRegisterMap", sortMap);
         return "redirect:/registration?success";
     }
 }

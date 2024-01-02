@@ -14,9 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 @Transactional
 @Service
@@ -73,5 +71,22 @@ public class GlobalConfigurationServiceImpl implements GlobalConfigurationServic
         this.globalConfigurationRepository.delete(config);
     }
 
+    public Map<String, String> getConfigByListCode(List<String> codes) {
+        Map<String, String> resultMap = new HashMap<>();
+        if (codes != null && codes.size() > 0) {
+            codes.forEach(code -> {
+                GlobalConfiguration configuration = this.globalConfigurationRepository.findByCode(code);
+                resultMap.put(code, configuration.getValue());
+            });
+        }
+        return resultMap;
+    }
+
+    public String getConfigByKeys(String key) {
+        List<String> codes = new ArrayList<>();
+        codes.add(key);
+        Map<String, String> mapConfig = this.getConfigByListCode(codes);
+        return mapConfig.get(key);
+    }
 
 }

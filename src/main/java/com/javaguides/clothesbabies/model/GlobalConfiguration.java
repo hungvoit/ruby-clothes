@@ -17,7 +17,7 @@ public class GlobalConfiguration {
     @Column(name = "code")
     private String code;
 
-    @Column(name = "value")
+    @Column(name = "value", columnDefinition = "TEXT")
     private String value;
 
     @Column(name = "description")

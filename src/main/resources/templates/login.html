@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         .container {
             display: flex;
@@ -27,7 +25,7 @@
         .custom_eye {
             position: absolute;
             right: 10px;
-            top: 10px;
+            top: 14px;
             cursor: pointer;
         }
 
@@ -48,38 +46,35 @@
                         <img th:src="@{/images/logo-shop.png}" width="150" height="150">
                     </div>
                     <!--Error message-->
-                    <div th:if="${param.error}">
-                        <div class="alert alert-danger">Invalid username or password</div>
+                    <div th:if="${param.error}" class="text-center">
+                        <div class="alert alert-warning"><i class="fa fa-exclamation-circle"></i> [[#{msg.invalid.login}]]</div>
                     </div>
                     <!--Logout message-->
-                    <div th:if="${param.logout}">
-                        <div class="alert alert-info">You have been logged out.</div>
-                    </div>
-                    <!--Session expired-->
-                    <div th:if="${param.expired}">
-                        <div class="alert alert-warning">Session Timeout.</div>
+                    <div th:if="${param.logout}" class="text-center">
+                        <div class="alert alert-info"><i class="fas fa-circle-check"></i> [[#{msg.logout}]]</div>
                     </div>
                     <div class="form-group">
-                        <label for="userName" class="font-weight-bold">Username<span class="text-danger">*</span>:</label>
+                        <label for="userName" class="font-weight-bold">[[#{label.username}]]<span class="text-danger">*</span>:</label>
                         <input type="text" id="username" name="username"
-                               class="form-control mb-2" required autofocus="autofocus" placeholder="your@gmail.com">
+                               class="form-control mb-2" required autofocus="autofocus" th:placeholder="#{label.placeholder.mail}">
                     </div>
                     <div class="form-group">
-                        <label for="password" class="font-weight-bold">Password<span class="text-danger">*</span></label>
+                        <label for="password" class="font-weight-bold">[[#{label.password}]]<span class="text-danger">*</span></label>
                         <div class="position-relative">
                             <input type="password" id="password" name="password"
-                                   class="form-control mb-2" required autofocus="autofocus" placeholder="Password">
+                                   class="form-control mb-2" required autofocus="autofocus" th:placeholder="#{label.password}">
                             <span class="fas fa-eye custom_eye" id="togglePassword" tabindex="0"></span>
                         </div>
                     </div>
-                    <button type="submit" id="login-submit" name="login-submit" class="btn btn-lg custom-btn"><i class="fa fa-sign-in mr-2"></i>Sign in</button>
+                    <button type="submit" id="login-submit" name="login-submit" class="btn custom-btn"><i class="fa fa-sign-in mr-2"></i>[[#{label.signIn}]]</button>
                     <div class="d-flex my-1 justify-center">
                         <input type="checkbox" id="remember-me" name="remember-me" class="size-checkbox c-pointer mr-1">
-                        <label for="remember-me" class="font-weight-bold m-0 c-pointer">Remember me</label>
+                        <label for="remember-me" class="font-weight-bold m-0 c-pointer">[[#{link.remember}]]</label>
                     </div>
                 </form>
-                <div class="form-group mt-1">
-                    <span>New user? <a href="#" th:href="@{/registration}">Register here</a></span>
+                <div class="form-group mt-1 text-center">
+                    <div class="my-2"><a th:href="@{/users/showForgotPassword}">[[#{link.forgot.password}]]?</a></div>
+                    <span>[[#{label.newUser}]]? <a th:href="@{/registration}">[[#{link.register}]]</a></span>
                 </div>
             </div>
             <div class="col-6 p-0">
@@ -88,6 +83,8 @@
         </div>
     </div>
 </body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
 <script>
     $('#togglePassword').click(function() {
         var eyeIcon = $(this);

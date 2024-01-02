@@ -2,8 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header.html :: extention">Header extention</head>
 <body>
-    <div class="row m-0">
-        <div th:replace="fragments/menu_left.html :: menuAdmin('')">Menu Tab</div>
+    <div class="d-flex">
+        <div th:replace="fragments/menu_left.html :: menuAdmin('dashboard')">Menu Tab</div>
+        <div id="content-page">
+            <div th:replace="fragments/header.html :: headerNavTop">Header Navigation Top</div>
+            <div class="mt-6r mx-5 h-cal-footer">
+                <h2>Dashboard Page</h2>
+            </div>
+            <div th:replace="fragments/header.html :: footerNav">Header Navigation Top</div>
+        </div>
     </div>
 </body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
 </html>

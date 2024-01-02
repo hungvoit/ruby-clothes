@@ -2,10 +2,11 @@
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
 <head th:replace="fragments/header.html :: extention">Header extention</head>
 <body>
-    <div class="row m-0">
-        <div th:replace="fragments/menu_left.html :: menuAdmin('global')">Menu Admin</div>
-        <div class="col-10 p-0">
-            <div class="container">
+    <div class="d-flex">
+        <div th:replace="fragments/menu_left.html :: menuAdmin('global')">Menu Tab</div>
+        <div id="content-page">
+            <div th:replace="fragments/header.html :: headerNavTop">Header Navigation Top</div>
+            <div class="mx-5 mt-6r h-cal-footer">
                 <div th:if="${message != null}" class="alert alert-warning alert-dismissible fade show text-center" role="alert">
                     <span>[[${message}]]</span>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -17,31 +18,34 @@
                     <div class="panel-body table-responsive">
                         <table class="table">
                             <thead th:replace="fragments/table.html :: tableHeader(~{ :: .globalFields})">
-                                <tr class="globalFields">
-                                    <th>Code</th>
-                                    <th>Value</th>
-                                    <th>Description</th>
-                                    <th>Creation Time</th>
-                                    <th>Updated Time</th>
-                                    <th>Action</th>
-                                </tr>
+                            <tr class="globalFields">
+                                <th th:text="#{label.code}">Code</th>
+                                <th class="w-20" th:text="#{label.value}">Value</th>
+                                <th th:text="#{label.description}">Description</th>
+                                <th th:text="#{label.createTime}">Creation Time</th>
+                                <th th:text="#{label.updateTime}">Updated Time</th>
+                                <th th:text="#{label.action}">Action</th>
+                            </tr>
                             </thead>
-                            <tbody th:replace="fragments/table.html :: tableBody(tableData=${listGlobal}, sizeCols=6)">Table body</tbody>
+                            <tbody th:replace="fragments/table.html :: tableBody(tableData=${listGlobal}, sizeCols=6, tab='global')">Table body</tbody>
                         </table>
                     </div>
-                    <div th:replace="fragments/table.html :: tablePaging('global/list', ${listGlobal})">Table paging</div>
+                    <div th:replace="fragments/table.html :: tablePaging('global', ${listGlobal})">Table paging</div>
                 </div>
             </div>
+            <div th:replace="fragments/header.html :: footerNav">Footer Navigation</div>
+            <!--Modal-->
+            <div th:fragment="modal-add" id="addModalHolder"></div>
+            <div th:fragment="modal-edit" id="editModalHolder"></div>
+            <div th:fragment="modal-del" id="delModalHolder"></div>
         </div>
-        <!--Modal-->
-        <div th:fragment="modal-add" id="addModalHolder"></div>
-        <div th:fragment="modal-edit" id="editModalHolder"></div>
-        <div th:fragment="modal-del" id="delModalHolder"></div>
     </div>
 </body>
 <script th:src="@{/js/jquery.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/jquery.validate.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
 <script th:inline="javascript">
     function openAddModal(){
         $.ajax({

@@ -1,5 +1,6 @@
 package com.javaguides.clothesbabies.oauth.google;
 
+import com.javaguides.clothesbabies.dto.enums.RoleEnum;
 import com.javaguides.clothesbabies.model.Role;
 import com.javaguides.clothesbabies.model.User;
 import com.javaguides.clothesbabies.oauth.AccessTokenValidationResult;
@@ -82,7 +83,7 @@ public class GoogleTokenService implements ResourceServerTokenServices {
             user.setFirstName((String) userInfo.get("given_name"));
             user.setLastName((String) userInfo.get("family_name"));
             user.setPassword("");
-            user.setRoles(Collections.singletonList(new Role("ROLE_USER")));
+            user.setRole(new Role(RoleEnum.CUSTOMER.name()));
         } else {
             user.setPrincipalId(principalId);
         }

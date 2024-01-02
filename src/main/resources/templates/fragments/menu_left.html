@@ -2,134 +2,137 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head th:replace="fragments/header.html :: extention">
     <style th:fragment="menuStyle">
-        a{
-            text-decoration: none;
-            transition: all 0.6s ease;
-        }
-        a:hover{
-            transition: all 0.6s ease;
-        }
-        .app{
-            height: 100vh;
-        }
-        .sidebar {
-            position: absolute;
-            height: 100%;
-            top: 0;
-            overflow: hidden;
-            background-color: #19222a;
-            visibility: visible;
-            -webkit-transform: translateZ(0);
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: linear-gradient(to right, #661a4f, #ec407a);
+            transition: all 0.3s;
             opacity: 0.9;
         }
-        header{
-            background: linear-gradient(to right, #FFD54F, #D500F9);
-            width: 100%;
-            display:block;
-            padding: 0.75em 1em;
+        #sidebar.active {
+            margin-left: -250px;
         }
-        .sidebar-nav {
-            position: fixed;
-            background-color: #661a4f;
-            height: 100%;
-            font-weight: 400;
-            font-size: 1.2em;
-            z-index: 9;
-            width: 100%;
-            overflow: hidden;
-        }
-        ul {
-            list-style: none;
+        #sidebar .logo {
             display: block;
+            width: 120px;
+            height: 120px;
+            margin: auto;
+            border-radius: 50%;
+        }
+        #sidebar ul {
+            list-style: none;
             padding: 0;
             margin: 0;
         }
-        li {
-            margin-left: 0;
-            padding-left: 0;
-            display: inline-block;
-            width: 100%;
+        #sidebar ul li {
+            font-size: 16px;
         }
-        ul li a {
-            color: #ffffffe6;
-            padding: .5em .7em;
-            position: relative;
+        #sidebar ul li > ul {
+            margin-left: 10px;
+        }
+        #sidebar ul li > ul li {
+            font-size: 14px;
+        }
+        #sidebar ul li a {
+            color: #ffffff;
+            padding: 10px 0;
             display: block;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        ul li a:hover{
-            background: linear-gradient(to right, #FFD54F, #D500F9);
-            transition: all 0.6s ease;
-            border-top: 1px solid white;
-            text-decoration: none;
-            color: white;
+        #sidebar ul li a:hover {
+            color: #f8b739;
         }
-        ul li i{
-            font-size: 1.8em;
-            padding-right: 0.5em;
-            width: 9em;
-            display: inline;
-            vertical-align:middle;
+        #sidebar ul li.active > a {
+            background: transparent;
+            color: #f8b739;
         }
-        .sidebar-nav > ul > li > a:after {
-            content: '\f125';
-            font-family: ionicons;
-            font-size: 0.8em;
-            width: 10px;
-            color: #fff;
+        #sidebar a[data-toggle="collapse"] {
+            position: relative;
+        }
+
+        #sidebar .dropdown-toggle::after {
+            display: block;
             position: absolute;
-            right: 0.75em;
-            top: 30%;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
         }
-        .sidebar-nav .nav-flyout {
-            position: absolute;
-            background-color: #080D11;
-            z-index: 9;
-            left: 3em;
-            top: 0;
-            height: 100vh;
+
+        #content-page {
             width: 100%;
-            transform: translateX(83%);
-            transition: all 0.5s ease;
+            padding: 0;
+            min-height: 100vh;
+            transition: all 0.3s;
         }
-        .sidebar-nav ul > li:hover .nav-flyout{
-            transform: translateX(0);
-            transition: all 0.5s ease;
+
+        @media (max-width: 991.98px) {
+            #sidebarCollapse span {
+                display: none;
+            }
         }
-        .active {
-            background: linear-gradient(to right, #FFD54F, #D500F9);
-            border-top: 1px solid white;
-            text-decoration: none;
-            color: white;
+
+        @media (max-width: 991.98px) {
+            #sidebar {
+                margin-left: -250px;
+            }
+            #sidebar.active {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <div th:fragment="menuAdmin(item)" th:remove="tag">
-        <div class="app col-2 p-0">
-            <div class="sidebar">
-                <header>
-                    <div class="d-flex align-center">
-                        <img class="logo-profile" src="https://gravatar.com/avatar/4474ca42d303761c2901fa819c4f2547">
-                        <div class="ml-2" style="color: white;">
-                            <span class="font-weight-bold" sec:authentication="principal.username"></span>
-                            <span>Admin</span>
-                        </div>
-                    </div>
-                </header>
-                <nav class="sidebar-nav">
-                    <ul>
+    <nav id="sidebar" th:fragment="menuAdmin(item)">
+        <div class="p-2">
+            <img class="img logo" src="https://gravatar.com/avatar/4474ca42d303761c2901fa819c4f2547">
+            <div class="d-flex align-center my-2" style="color: #ffffff; flex-direction: column">
+                <span class="font-weight-bold" sec:authentication="principal.username"></span>
+                <span>Admin</span>
+            </div>
+            <ul class="my-2">
+                <li th:class="${item == 'dashboard'} ? 'active'">
+                    <a href="#dashboardSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <span class="d-flex align-center">
+                            <i class="ion-grid cus-fa-1x mr-1"></i>
+                            [[#{label.dashboard}]]
+                        </span>
+                    </a>
+                    <ul class="collapse" id="dashboardSubmenu">
                         <li>
-                            <a href="#" th:classappend="${item == 'global'} ? 'active' "><i class="ion-bag"></i> <span>System Operator</span></a>
-                            <ul class="nav-flyout">
-                                <li>
-                                    <a th:href="@{/global/}"><i class="ion-settings"></i>Config Global</a>
-                                </li>
-                            </ul>
+                            <a class="d-flex align-center" th:href="@{/dashboard}"><i class="ion-grid cus-fa-1x mr-1"></i>[[#{label.dashboard}]]</a>
                         </li>
                     </ul>
-                </nav>
+                </li>
+                <li th:class="${item == 'global'} ? 'active'">
+                    <a href="#globalSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <span class="d-flex align-center">
+                            <i class="ion-bag cus-fa-1x mr-1"></i>
+                            [[#{label.sys.operator}]]
+                        </span>
+                    </a>
+                    <ul class="collapse" id="globalSubmenu">
+                        <li>
+                            <a class="d-flex align-center" th:href="@{/global}"><i class="ion-settings cus-fa-1x mr-1"></i>[[#{label.config.global}]]</a>
+                        </li>
+                    </ul>
+                </li>
+                <li th:class="${item == 'user'} ? 'active'">
+                    <a href="#usersSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <span class="d-flex align-center">
+                            <i class="ion-ios-people cus-fa-1x mr-1"></i>
+                            [[#{label.users.management}]]
+                        </span>
+                    </a>
+                    <ul class="collapse" id="usersSubmenu">
+                        <li>
+                            <a class="d-flex align-center" th:href="@{/users}"><i class="ion-ios-person cus-fa-1x mr-1"></i>[[#{label.users}]]</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="footer">
             </div>
         </div>
-    </div>
+    </nav>
 </body>
 </html>

@@ -29,8 +29,17 @@ public class User {
 	@Column(name = "status")
 	private String status;
 
+	@Column(name = "phone")
+	private String phone;
+
+	@Column(name = "profile_url")
+	private String profileUrl;
+
 	@Column(name = "login_type")
 	private String loginType;
+
+	@Column(name = "tmp_pwd_flag")
+	private int tmp_pwd_flag;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date")
@@ -40,26 +49,25 @@ public class User {
 	@Column(name = "update_date")
 	private Date updateDate;
 
-
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Enumerated(EnumType.STRING)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(
 		name = "users_roles",
 		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
 		inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
 	)
-	private Collection<Role> roles;
+	private Role role;
 
 	public User() {
 
     }
 
-	public User(String firstName, String lastName, String email, String password, Collection<Role> roles) {
+	public User(String firstName, String lastName, String email, String password, Role role) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.roles = roles;
+		this.role = role;
 	}
 
 	public Long getId() {
@@ -142,11 +150,35 @@ public class User {
 		this.updateDate = updateDate;
 	}
 
-	public Collection<Role> getRoles() {
-		return roles;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setRoles(Collection<Role> roles) {
-		this.roles = roles;
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getProfileUrl() {
+		return profileUrl;
+	}
+
+	public void setProfileUrl(String profileUrl) {
+		this.profileUrl = profileUrl;
+	}
+
+	public int getTmp_pwd_flag() {
+		return tmp_pwd_flag;
+	}
+
+	public void setTmp_pwd_flag(int tmp_pwd_flag) {
+		this.tmp_pwd_flag = tmp_pwd_flag;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 }

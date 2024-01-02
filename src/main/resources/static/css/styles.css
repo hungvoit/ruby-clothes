@@ -13,7 +13,7 @@ body {
 }
 
 .justify-center {
-  justify-content: center;
+  justify-content: center !important;
 }
 
 .c-pointer {
@@ -21,9 +21,30 @@ body {
 }
 
 .c-not-allow {
-  cursor: not-allowed;
+  cursor: not-allowed !important;
 }
 
+.w-20 {
+ width: 20%;
+}
+
+.h-cal-footer {
+  height: calc(100% - 165px);
+}
+
+.cus-fa-1x {
+  font-size: 1.5em;
+}
+
+.mt-6r {
+  margin-top: 6rem !important;
+}
+
+.fix-header {
+  position: fixed;
+  z-index: 1;
+  width: -webkit-fill-available !important;
+}
 .custom-btn {
   border-radius: 50px;
   color: #fff;
@@ -44,6 +65,14 @@ body {
   font-weight: 500;
 }
 
+.allError-message {
+    color: #a94442;
+    font-size: 14px;
+    font-weight: bold;
+    list-style: none;
+    text-align: center;
+}
+
 .error-message:first-letter {
   text-transform: capitalize;
 }
@@ -52,6 +81,19 @@ body {
   box-shadow: inset 0 -3px 0 0 #ff000036;
   border: 1px solid #e4e4e4 !important;
   border-bottom: 1px solid #ff7e7e !important;
+}
+
+.has-error-input {
+  box-shadow: inset 0 -3px 0 0 #ff000036;
+  border-bottom: 3px solid #ff7e7e !important;
+}
+
+.cus-select {
+  border: none;
+  border-bottom: 1px solid #ced4da;
+  outline: none;
+  width: calc(100% - 2.5rem);
+  margin-left: 2.5rem !important;
 }
 
 .pos-icon {
@@ -71,8 +113,17 @@ body {
   color: white;
 }
 
-.logo-profile {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+.line-one {
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-break: break-word;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  line-height: 35px;
+}
+
+.img-size-30 {
+  height: 30px;
+  width: 30px;
 }

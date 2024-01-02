@@ -1,0 +1,11 @@
+mail:
+ smtp:
+   user: smtp.services@psbbanknv.com
+   password: Sok87205
+   fromAddress: smtp.services@psbbanknv.com
+   auth: true
+   starttls:
+     enable: true
+   host: smtp.office365.com
+   port: 587
+

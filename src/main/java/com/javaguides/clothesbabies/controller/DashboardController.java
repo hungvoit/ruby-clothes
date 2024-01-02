@@ -1,6 +1,7 @@
 package com.javaguides.clothesbabies.controller;
 
-import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DashboardController {
     @GetMapping
     public String displayDashboard(Model model){
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return "redirect:/login";
+        }
+        UserDetails user = (UserDetails) authentication.getPrincipal();
         model.addAttribute("userDetails", user);
         return "dashboard";
     }
