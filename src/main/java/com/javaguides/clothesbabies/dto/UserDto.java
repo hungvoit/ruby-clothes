@@ -54,6 +54,8 @@ public class UserDto {
 
 	private String globalError;
 
+	public String abbreviateName;
+
 	public UserDto() {}
 
 	public Long getId() {
@@ -191,4 +193,12 @@ public class UserDto {
     public void setGlobalError(String globalError) {
         this.globalError = globalError;
     }
+
+	public String getAbbreviateName() {
+		return abbreviateName;
+	}
+
+	public void setAbbreviateName(String abbreviateName) {
+		this.abbreviateName = abbreviateName;
+	}
 }

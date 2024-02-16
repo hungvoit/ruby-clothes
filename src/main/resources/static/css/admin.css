@@ -1,0 +1,300 @@
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: linear-gradient(to right, #661a4f, #ec407a);
+    transition: all 0.3s;
+    opacity: 0.9;
+}
+#sidebar.active {
+    margin-left: -250px;
+}
+#sidebar .logo {
+    display: block;
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    border-radius: 50%;
+}
+#sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#sidebar ul li {
+    font-size: 16px;
+}
+#sidebar ul li > ul {
+    margin-left: 10px;
+}
+#sidebar ul li > ul li {
+    font-size: 14px;
+}
+#sidebar ul li a {
+    color: #ffffff;
+    padding: 10px 0;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+#sidebar ul li a:hover {
+    color: #f8b739;
+}
+#sidebar ul li.active > a {
+    background: transparent;
+    color: #f8b739;
+}
+#sidebar a[data-toggle="collapse"] {
+    position: relative;
+}
+
+#sidebar .dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+#content-page {
+    width: 100%;
+    padding: 0;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+
+.dropdown-item {
+    padding: 6px !important;
+    font-size: 14px !important;
+}
+
+.panel{
+    background: linear-gradient(to right, #661a4f, #ec407a);
+    opacity: 0.9;
+    border-radius: 10px;
+}
+.panel .panel-heading{
+    padding: 9px;
+    border-radius: 10px 10px 0 0;
+    margin: 0;
+}
+.panel .panel-heading .title{
+    color: #fff;
+    font-size: 28px;
+    font-weight: 500;
+    text-transform: capitalize;
+    line-height: 40px;
+    margin: 0;
+}
+.panel .panel-heading .btn{
+    background: transparent;
+    text-transform: capitalize;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    font-size: 25px;
+    width: 50px;
+    transition: all 0.3s ease 0s;
+}
+.panel .panel-heading .btn:hover{
+    color: #ffffff;
+}
+.panel .panel-heading .form-control{
+    color: #ffffff;
+    background-color: transparent;
+    width: 35%;
+    height: 40px;
+    border: 2px solid #ffffff;
+    border-radius: 20px;
+    display: inline-block;
+    transition: all 0.3s ease 0s;
+}
+.panel .panel-heading .form-control:focus{
+    background-color: #ffffff33;
+    box-shadow: none;
+    outline: none;
+}
+.panel .panel-heading .form-control::placeholder{
+    color: rgba(255,255,255,0.5);
+    font-size: 15px;
+    font-weight: 500;
+}
+.panel .panel-body{ padding: 0; }
+.panel .panel-body .table thead tr th{
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 12px;
+    border: none;
+}
+.panel .panel-body .table tbody tr td{
+    color: #fff;
+    font-size: 15px;
+    padding: 10px 12px;
+    vertical-align: middle;
+    border: none;
+}
+.panel .panel-body .table tbody tr:nth-child(even){
+    background-color: rgba(255,255,255,0.05);
+}
+.panel .panel-footer{
+    color: #fff;
+    background-color: transparent;
+    padding: 15px;
+    border: none;
+}
+.panel .panel-body .table .action {
+    padding: 10px;
+    border-radius: 100%;
+    border: 2px solid;
+    width: 3em;
+}
+.btn {
+    padding: revert;
+    font-size: unset;
+}
+.modal-background {
+    background: linear-gradient(to right, #ab197f, #b75bc6);
+    color: white;
+}
+
+.pagination .disabled {
+    color: #cacaca !important;
+    cursor: not-allowed;
+    pointer-events: auto;
+}
+.pagination li {
+    width: auto;
+    text-align: center;
+}
+.pagination li i {
+    width: 2em;
+    font-size: 16px;
+    padding-bottom: 3px;
+}
+.pagination a {
+    margin: 0 5px;
+    padding: 0;
+    width: 30px;
+    color: #ffffff !important;
+    line-height: 30px;
+    background-color: #ec407a !important;
+    border-radius: 100%;
+    border: 2px solid #ffffff;
+}
+.pagination a .fa-ellipsis {
+    width: 2em;
+    padding-bottom: 3px;
+    text-align: center;
+    color: white;
+}
+.pagination a.active {
+    background: linear-gradient(to right, #FFD54F, #D500F9);
+}
+.pagination a.prev {
+    border-radius: 50px 0 0 50px;
+    width: 100px;
+}
+.pagination a.next {
+    border-radius: 0 50px 50px 0;
+    width: 100px;
+}
+.panel-footer ul li a {
+    display: block;
+}
+.panel-footer ul li a:hover{
+    background: linear-gradient(to right, #FFD54F, #D500F9);
+    transition: all 0.6s ease;
+    border-top: 1px solid white;
+}
+.panel-footer ul li i{
+    display: inline;
+}
+
+.modal.show .modal-dialog {
+    transform: translate(10px, 150px) !important;
+}
+
+#main-content {
+    min-height: calc(100% - 166px);
+}
+
+.setting-theme {
+    position: fixed;
+    right: 0;
+    z-index: 2;
+    color: #fff;
+    max-height: 49rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+
+.setting-theme::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.setting-theme::-webkit-scrollbar {
+    width: 12px;
+    background-color: #ffffff;
+}
+
+.setting-theme::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #ec407a;
+}
+
+.cus-bg-theme {
+    height: 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 350px;
+}
+
+.img-theme {
+    height: 100px;
+    width: 100%;
+    object-fit: fill;
+}
+
+#loading {
+    border: 2px solid #ec407a;
+    background: linear-gradient(to right, #661a4f, #ec407a);
+}
+
+select#parentId option, select#childId option{
+ color:#000 !important;
+}
+
+@media (max-width: 991.98px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+
+    #sidebarCollapse span {
+        display: none;
+    }
+}
+
+@media (min-width: 576px) {
+    #content-page .navbar-expand-lg .navbar-collapse {
+        display: flex!important;
+        flex-basis: auto;
+    }
+    #content-page .navbar-expand-lg .navbar-nav {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 576px) {
+    #navbarSupportedContent ul li a.nav-link {
+        float: right;
+    }
+}

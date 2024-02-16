@@ -1,82 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header.html :: extention"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Frame Modal</title>
+</head>
 <body>
-  <!--START - MODAL ADD NEW-->
-  <div th:fragment="add-data(urlAction, tabName)" th:remove="tag">
-      <div th:id="'addModal_' + ${tabName}" class="modal fade" role="dialog" tabindex="-1">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <div class="modal-header text-center modal-background">
-                      <h4 class="modal-title w-100 font-weight-bold" th:text="#{label.createTab(${tabName})}"></h4>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <form th:id="'form' + ${tabName}" th:action="@{__${urlAction}__}" th:object="${initData}" method="POST">
-                      <div class="modal-body mx-3">
-                          <div class="md-form">
-                              <i class="fas fa-key prefix grey-text"></i>
-                              <input type="text" th:field="*{code}" th:placeholder="#{label.code}" class="form-control"/>
-                              <span th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="error-message">Validation error</span>
-                          </div>
-                          <div class="md-form">
-                              <i class="fas fa-file-signature prefix grey-text"></i>
-                              <input type="text" th:field="*{value}" th:placeholder="#{label.value}" class="form-control"/>
-                              <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}" class="error-message">Validation error</span>
-                          </div>
-                          <div class="md-form">
-                              <i class="fas fa-bookmark prefix grey-text"></i>
-                              <input type="text" th:field="*{description}" th:placeholder="#{label.description}" class="form-control"/>
-                          </div>
-                      </div>
-                      <div class="modal-footer d-flex justify-content-center modal-background">
-                          <button type="submit" class="btn btn-pink p-3"><i class="fas fa-save"></i> [[#{label.save}]]</button>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-  </div>
-  <!--END - MODAL ADD NEW-->
-
-  <!--START - MODAL UPDATE-->
-  <div th:fragment="edit-data(urlAction, tabName)" th:remove="tag">
-      <div th:id="'editModal_' + ${tabName}" class="modal fade" role="dialog" tabindex="-1">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <div class="modal-header text-center modal-background">
-                      <h4 class="modal-title w-100 font-weight-bold" th:text="#{label.updateTab(${tabName})}"></h4>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <form action="#" th:action="@{__${urlAction}__}" method="POST">
-                      <div class="modal-body mx-3">
-                          <div class="md-form">
-                              <i class="fas fa-key prefix grey-text"></i>
-                              <input type="text" th:field="*{editData.code}" th:placeholder="#{label.code}"
-                                     class="form-control c-not-allow grey-text" readonly/>
-                          </div>
-                          <div class="md-form">
-                              <i class="fas fa-file-signature prefix grey-text"></i>
-                              <input type="text" th:field="*{editData.value}" th:placeholder="#{label.value}" class="form-control"/>
-                          </div>
-                          <div class="md-form">
-                              <i class="fas fa-bookmark prefix grey-text"></i>
-                              <input type="text" th:field="*{editData.description}" th:placeholder="#{label.description}" class="form-control"/>
-                          </div>
-                      </div>
-                      <div class="modal-footer d-flex justify-content-center modal-background">
-                          <button type="submit" class="btn btn-pink p-3"><i class="fas fa-save"></i> [[#{label.save}]]</button>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-  </div>
-  <!--END - MODAL UPDATE-->
-
   <!--START - MODAL DELETE-->
   <div th:fragment="del-data(urlAction, tabName)" th:remove="tag">
       <div th:id="'delModal_' + ${tabName}" class="modal fade" role="dialog" tabindex="-1">
@@ -92,7 +20,7 @@
                       <i class="fas fa-info icon-info"></i>
                       <label th:text="#{msg.delete(${tabName})}"></label><span class="ml-1 font-weight-bold" th:text="${tabName == 'user' ? delData.id : delData.code}"></span>?
                   </div>
-                  <form th:action="@{__${urlAction}__/{id}(id=${tabName == 'user' ? delData.id : delData.code})}" method="post">
+                  <form th:action="@{__${urlAction}__/{id}(id=${tabName == 'user' || tabName == 'categories' ? delData.id : delData.code})}" method="post">
                       <div class="modal-footer d-flex justify-content-center modal-background">
                           <button type="submit" class="btn btn-pink p-3"><i class="fas fa-trash-can"></i> [[#{label.delete}]]</button>
                       </div>
@@ -104,17 +32,30 @@
   <!--END - MODAL DELETE-->
 
   <!--START - MODAL IMAGE-->
-  <div th:fragment="image-data(urlAction, tabName)" th:remove="tag">
-      <div th:id="'resizeModal_' + ${tabName}" class="modal fade" role="dialog" tabindex="-1">
-          <div class="modal-dialog">
+  <div th:fragment="image-modal" th:remove="tag">
+      <div id="resizeImgModal" class="modal fade" role="dialog" tabindex="1" style="z-index: 1058;"
+           data-keyboard="false" data-backdrop="static">
+          <div class="modal-dialog modal-lg">
               <div class="modal-content">
                   <div class="modal-header text-center modal-background">
-                      <h4 class="modal-title w-100 font-weight-bold">Resize Image [[${tabName}]]</h4>
+                      <h4 class="modal-title w-100 font-weight-bold" th:text="#{label.list.img.product}"></h4>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                       </button>
                   </div>
-                  <div>Image Modal</div>
+                  <div class="modal-body">
+                      <div class="d-flex justify-content-around">
+                          <div class="d-flex align-center">
+                            <input type="file" class="d-none" multiple name="file" id="upload-thumbnail" accept="image/*">
+                            <label for="upload-thumbnail" class="btn btn-warning p-2" th:text="#{label.upload.img}"><i class="fas fa-upload mr-1"></i></label>
+                            <button class="btn btn-pink btn-choose-img p-2" disabled th:text="#{label.choose.img}"><i class="fa fa-check mr-1"></i></button>
+                          </div>
+                          <button class="btn btn-danger btn-delete-img p-2" disabled th:text="#{label.delete.img}"><i class="fas fa-trash-alt mr-1"></i></button>
+                      </div>
+                      <div id="list-img">
+                          <ul class="list"></ul>
+                      </div>
+                  </div>
               </div>
           </div>
       </div>

@@ -1,41 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th = "http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/layout :: main-fragment(
+                                                '',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content},
+                                                ''
+                                               )}">
 <head>
-    <meta charset="UTF-8">
-    <title>Registration User Account</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <style>
-        .container {
-            display: flex;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .content-form {
-            box-shadow: 0 -5px 10px #0000001f, 0 5px 10px #0000001f;
-            background: #ffffff;
-            background-clip: content-box;
-            opacity: 0.9;
-            flex: 1;
-        }
-
-        .disabled {
-            color: #cacaca;
-            cursor: not-allowed !important;
-        }
-    </style>
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/registration.css}"/>
+    </th:block>
 </head>
-<body class="h-100">
-    <!--Create HTML registration form-->
+<body>
+<main id="main-content">
     <div class="container">
         <div class="row p-2 content-form">
             <div class="col-6 card-body">
                 <h3 class="text-center font-weight-bold" th:text="#{label.registration}">Registration</h3>
                 <div class="d-flex justify-center">
-                    <img th:src="@{/images/logo-shop.png}" width="150" height="150">
+                    <a href="/"><img src="" th:src="@{/images/logo-shop.png}" width="150" height="150"></a>
                 </div>
                 <div th:if="${param.success}" class="text-center">
                     <h5 class="font-weight-bold" th:text="#{label.success}">SUCCESS</h5>
@@ -57,7 +40,7 @@
                 <div th:unless="${param.success}">
                     <form action="#" th:action="@{/registration}" th:object="${user}" method="POST" id="frm-confirm">
                         <!--<p class="error-message" th:if="${#fields.hasGlobalErrors()}"-->
-                           <!--th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>-->
+                        <!--th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>-->
                         <div class="row">
                             <fieldset class="form-group col-12 mb-0">
                                 <label for="firstName" class="font-weight-bold">[[#{label.firstName}]]</label><span class="text-danger">*</span>
@@ -122,36 +105,9 @@
             </div>
         </div>
     </div>
+</main>
+<th:block id="js-resources">
+    <script type="text/javascript" th:src="@{/js/components/registration.js}"></script>
+</th:block>
 </body>
-<script th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/jquery.inputmask.min.js}"></script>
-<script>
-    $(":input").inputmask();
-    $(document).ready(function() {
-        $('#btnRegister').on('click', function() {
-            var msgTran = '[[#{label.processing}]]';
-            //double submit
-            var idForm = $('#frm-confirm');
-            if (idForm.attr('submitted')){
-                event.preventDefault();
-            } else {
-                idForm.attr('submitted',true);
-            }
-
-            //Processing loading
-            var $this = $(this);
-            var loadingText = '<i class="fa fa-spinner fa-spin"></i> ' + msgTran;
-            if ($(this).html() !== loadingText) {
-                $this.data('original-text', $(this).html());
-                $this.html(loadingText);
-                $this.addClass("disabled");
-            }
-            setTimeout(function() {
-                $this.html($this.data('original-text'));
-                $this.removeClass("disabled");
-            }, 10000);
-        });
-    });
-</script>
 </html>

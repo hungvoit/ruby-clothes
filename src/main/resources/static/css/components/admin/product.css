@@ -1,0 +1,76 @@
+#productTab {
+    column-gap: 10px;
+    margin-bottom: 10px;
+}
+
+#productTab .nav-link {
+    background: #ffffff;
+}
+
+#productTab .nav-link.active, .nav-link:hover {
+    color: #ffffff;
+    background: linear-gradient(to right, #661a4f, #ec407a) !important;
+    border-color: #ec407a !important;
+}
+
+#datetimepicker .bootstrap-datetimepicker-widget {
+    inset: 52px auto auto 60px !important;
+}
+
+#datetimepicker .bootstrap-datetimepicker-widget.dropdown-menu {
+    width: 21rem !important;
+    background-color: #661a4f;
+}
+
+#datetimepicker .bootstrap-datetimepicker-widget table td.disabled {
+    color: #808080 !important;
+}
+
+#datetimepicker .bootstrap-datetimepicker-widget table td {
+    color: #ffffff;
+}
+
+#datetimepicker .bootstrap-datetimepicker-widget table td.active,
+#datetimepicker .bootstrap-datetimepicker-widget table td span.active,
+#datetimepicker .bootstrap-datetimepicker-widget table td.day:hover,
+#datetimepicker .bootstrap-datetimepicker-widget table td span:hover {
+    background: #ffa500;
+    color: #ffffff;
+}
+
+.upload-box {
+    width: 117px;
+    height: 117px;
+    display: flex;
+    border: 2px solid #e4e4e4;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    color: #adadad;
+    background: #fff;
+    flex-direction: column;
+}
+
+#list-img .list {
+    padding-left: 0;
+    display: grid;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    grid-template-columns: repeat(5, 0fr);
+    overflow-y: auto;
+}
+
+#list-img .grid-item {
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #d2d6de;
+}
+
+#list-img .grid-item-img {
+    width: 130px;
+    height: 130px;
+}
+
+#list-img .list .grid-item.choosen {
+    border: 2px solid #3fb159;
+}

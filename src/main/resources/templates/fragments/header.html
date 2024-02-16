@@ -1,39 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="extention">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8">
-    <title>Ruby Clothes Shop</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
-    <!-- MDB style -->
-    <link rel="stylesheet" th:href="@{/css/mdb.min.css}">
-    <!-- Custom style -->
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <style th:replace="fragments/menu_left.html :: menuStyle"></style>
-    <style th:replace="fragments/table.html :: tableStyle"></style>
-    <style>
-        .dropdown-item {
-            padding: 6px !important;
-            font-size: 14px !important;
-        }
-
-        @media (min-width: 576px) {
-            #content-page .navbar-expand-lg .navbar-collapse {
-                display: flex!important;
-                flex-basis: auto;
-            }
-            #content-page .navbar-expand-lg .navbar-nav {
-                flex-direction: row;
-            }
-        }
-
-        @media (max-width: 576px) {
-            #navbarSupportedContent ul li a.nav-link {
-                float: right;
-            }
-        }
-    </style>
+    <title>Frame Header</title>
 </head>
 <body>
     <!--Fragment header top admin-->
@@ -61,42 +30,136 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
-                            <span th:switch="__${#locale.language}__">
-                                <img th:case="vi" class="img-size-30" src="" th:src="@{/images/flags/flag_VN.png}">
-                                <img th:case="en" class="img-size-30" src="" th:src="@{/images/flags/flag_USA.png}">
-                                <img th:case="zh" class="img-size-30" src="" th:src="@{/images/flags/flag_ZH.png}">
-                                <img th:case="ko" class="img-size-30" src="" th:src="@{/images/flags/flag_KO.png}">
-                                <img th:case="ja" class="img-size-30" src="" th:src="@{/images/flags/flag_JP.png}">
-                                <img th:case="*" class="img-size-30" src="" th:src="@{/images/flags/flag_USA.png}">
-                            </span>
-                            <!--<i class="ion-earth cus-fa-1x pink-text"><span class="fa-xs font-weight-bold ml-2" th:text="${#strings.toUpperCase(#locale)}"></span></i>-->
+                        <div th:replace="fragments/header.html :: language" th:remove="tag"></div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" onclick="getUnsplashImages()">
+                            <i class="ion-android-settings cus-fa-1x pink-text"></i>
                         </a>
-                        <div class="dropdown-menu" style="right: 0; left: auto;" th:with="currentUrl=(${'~' + #httpServletRequest.requestURI})">
-                            <span class="ml-2 font-weight-bold">[[#{label.choose.lng}]]</span>
-                            <a class="dropdown-item" th:href="@{${currentUrl}(lng=en)}">English - EN</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" th:href="@{${currentUrl}(lng=ko)}">한국어 - KO</a>
-                            <a class="dropdown-item" th:href="@{${currentUrl}(lng=zh)}">中文 (简体) - ZH</a>
-                            <a class="dropdown-item" th:href="@{${currentUrl}(lng=ja)}">日本 - JP</a>
-                            <a class="dropdown-item" th:href="@{${currentUrl}(lng=vi)}">Tiếng Việt - VN</a>
+                        <div class="setting-theme" onscroll="loadMoreImage(event)">
+                            <div class="container">
+                                <div class="row justify-content-around align-items-center cus-bg-theme" id="themeRender"></div>
+                            </div>
+                            <div class="d-none" id="loading">
+                                <div class="d-flex justify-center"><span class="white-text font-weight-bold">Loading</span>
+                                    <i class="fa fa-spinner fa-spin white-text ml-2 cus-fa-1x"></i>
+                                </div>
+                            </div>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/logout}" ><i class="ion-power cus-fa-1x pink-text"></i></a>
+                        <a class="nav-link" th:href="@{/logout}" id="idLogout" ><i class="ion-power cus-fa-1x pink-text"></i></a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!--Fragment header top admin-->
-    <nav class="navbar navbar-expand-lg navbar-light white fix-header" th:fragment="footerNav">
-        <div class="container-fluid p-3 justify-center">
-            <div class="font-weight-bold pink-text">
-                <span th:text="#{msg.footer}"></span>
+    <!--Fragment header top shop-->
+    <th:block th:fragment="full-header">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light white fix-header py-0">
+                <a class="navbar-brand" href="/">
+                    <img width="60px" height="60px" src="" th:src="@{/images/logo-shop.png}" alt="logo"/>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-md-end text-center" id="navbarNav">
+                    <!--Search menu Start-->
+                    <div class="d-flex flex-1">
+                        <div class="m-auto">
+                            <div class="d-flex align-center">
+                                <input class="form-control col-sm-12" type="text" th:placeholder="#{label.question.search}"/>
+                                <div class="dropdown">
+                                    <button class="border btn-pink m-height-41 m-width-10rem" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">[[#{label.all.category}]]</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="javascript:">[[#{label.all.category}]]</a>
+                                    </div>
+                                </div>
+                                <button class="border btn-pink m-0 m-height-41 m-width-5rem" type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Search menu End-->
+
+                    <!--Dropdown Start-->
+                    <ul class="navbar-nav align-center">
+                        <li class="nav-item"><a class="nav-link" th:href="@{/help}"><i class="fa-solid fa-circle-question pink-text cus-fa-1x"></i></a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-bell pink-text cus-fa-1x"></i>
+                            </a>
+                            <div class="dropdown-menu" style="right: 0; left: auto;">
+                                <span class="ml-2 font-weight-bold">[[#{label.notification}]]</span>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-shopping-cart pink-text cus-fa-1x"></i>
+                            </a>
+                            <div class="dropdown-menu" style="right: 0; left: auto;">
+                                <span class="ml-2 font-weight-bold">[[#{label.shopping.cart}]]</span>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <div th:replace="fragments/header.html :: language" th:remove="tag"></div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a sec:authorize="!isAuthenticated()" class="nav-link" th:href="@{/login}"><i class="fa fa-user pink-text cus-fa-1x"></i> [[#{label.login}]]</a>
+                            <a sec:authorize="isAuthenticated()" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                                <span class="default-image">[[${userDetails.abbreviateName}]]</span>
+                            </a>
+                            <div class="dropdown-menu" style="right: 0; left: auto;">
+                                <a class="dropdown-item" th:href="@{/logout}">
+                                    <i class="fa-solid fa-power-off"></i>
+                                    <div class="d-inline ml-1">[[#{label.logout}]]</div>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <!--Dropdown End-->
+                </div>
+            </nav>
+        </header>
+    </th:block>
+
+    <!--Fragment alert-->
+    <th:block th:fragment="alert(message)" th:remove="tag">
+        <div th:if="${message != null}" class="toast hide green white-text mw-100" style="opacity: 0.9;"
+              role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+            <div class="d-flex">
+                <div class="toast-body flex-1 text-center">
+                    <span>[[${message}]]</span>
+                </div>
+                <button type="button" class="btn btn-pink my-auto" data-bs-dismiss="toast" aria-label="Close"><i class="fas fa-xmark"></i></button>
             </div>
         </div>
-    </nav>
+    </th:block>
+
+    <!--Fragment Language-->
+    <th:block th:fragment="language" th:remove="tag">
+        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+            <span th:switch="__${#locale.language}__">
+                <img th:case="vi" class="img-size-30" src="" th:src="@{/images/flags/flag_VN.png}">
+                <img th:case="en" class="img-size-30" src="" th:src="@{/images/flags/flag_USA.png}">
+                <img th:case="zh" class="img-size-30" src="" th:src="@{/images/flags/flag_ZH.png}">
+                <img th:case="ko" class="img-size-30" src="" th:src="@{/images/flags/flag_KO.png}">
+                <img th:case="ja" class="img-size-30" src="" th:src="@{/images/flags/flag_JP.png}">
+                <img th:case="*" class="img-size-30" src="" th:src="@{/images/flags/flag_USA.png}">
+            </span>
+        </a>
+        <div class="dropdown-menu" style="right: 0; left: auto;" th:with="currentUrl=(${'~' + #httpServletRequest.requestURI})">
+            <span class="ml-2 font-weight-bold">[[#{label.choose.lng}]]</span>
+            <a class="dropdown-item" th:href="@{${currentUrl}(lng=en)}">English - EN</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" th:href="@{${currentUrl}(lng=ko)}">한국어 - KO</a>
+            <a class="dropdown-item" th:href="@{${currentUrl}(lng=zh)}">中文 (简体) - ZH</a>
+            <a class="dropdown-item" th:href="@{${currentUrl}(lng=ja)}">日本 - JP</a>
+            <a class="dropdown-item" th:href="@{${currentUrl}(lng=vi)}">Tiếng Việt - VN</a>
+        </div>
+    </th:block>
 </body>
 </html>

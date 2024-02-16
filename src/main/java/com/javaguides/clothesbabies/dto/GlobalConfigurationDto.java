@@ -16,6 +16,8 @@ public class GlobalConfigurationDto {
 
     private Date updateDate;
 
+    private boolean flagChange;
+
     public GlobalConfigurationDto(){
 
     }
@@ -58,5 +60,13 @@ public class GlobalConfigurationDto {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public boolean getFlagChange() {
+        return flagChange;
+    }
+
+    public void setFlagChange(boolean flagChange) {
+        this.flagChange = flagChange;
     }
 }

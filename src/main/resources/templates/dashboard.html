@@ -1,19 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header.html :: extention">Header extention</head>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" th:replace="~{/layout/layout-admin :: main-fragment(
+                                                'dashboard',
+                                                'headerNavTop',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content},
+                                                'footerAdmin'
+                                               )}">
+<head>
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/admin/dashboard.css}"/>
+    </th:block>
+</head>
 <body>
-    <div class="d-flex">
-        <div th:replace="fragments/menu_left.html :: menuAdmin('dashboard')">Menu Tab</div>
-        <div id="content-page">
-            <div th:replace="fragments/header.html :: headerNavTop">Header Navigation Top</div>
-            <div class="mt-6r mx-5 h-cal-footer">
-                <h2>Dashboard Page</h2>
-            </div>
-            <div th:replace="fragments/header.html :: footerNav">Header Navigation Top</div>
+    <main id="main-content">
+        <div class="mx-5 mt-6r h-cal-footer">
+            <h2>Dashboard Page</h2>
         </div>
-    </div>
+    </main>
+    <th:block id="js-resources">
+        <script type="text/javascript" th:src="@{/js/components/admin/dashboard.js}"></script>
+    </th:block>
 </body>
-<script th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/main.js}"></script>
 </html>

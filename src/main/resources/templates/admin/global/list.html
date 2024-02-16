@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" th:replace="~{/layout/layout-admin :: main-fragment(
+                                                'global',
+                                                'headerNavTop',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content},
+                                                'footerAdmin'
+                                               )}">
+<head>
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/admin/global.css}"/>
+    </th:block>
+</head>
+<body>
+    <main id="main-content">
+        <div class="mx-5 mt-6r h-cal-footer">
+            <th:block th:replace="~{fragments/header :: alert(${message})}">Alert</th:block>
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-12">
+                            <h4 class="title" th:text="#{label.data('global')}"></h4>
+                        </div>
+                        <div class="col-sm-9 col-xs-12 text-right">
+                            <div class="btn_group">
+                                <input type="text" class="form-control" th:placeholder="#{label.search}" >
+                                <button class="btn btn-pink"><i class="ion-ios-refresh"></i></button>
+                                <a class="btn btn-pink" th:href="@{/admin/global/showGlobalForm}"><i class="ion-android-add-circle"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th th:text="#{label.code}">Code</th>
+                            <th class="w-20" th:text="#{label.value}">Value</th>
+                            <th th:text="#{label.description}">Description</th>
+                            <th th:text="#{label.createTime}">Creation Time</th>
+                            <th th:text="#{label.updateTime}">Updated Time</th>
+                            <th th:text="#{label.action}">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:unless="${#lists.isEmpty(listGlobal)}" th:each="row: ${listGlobal}">
+                            <td th:text="${row.code}">0</td>
+                            <td class="line-one" th:text="${row.value}">Value</td>
+                            <td th:text="${row.description}">Description</td>
+                            <td th:text="${#dates.format(row.createDate, 'dd/MM/yyyy HH:mm:ss')}">Creation Time</td>
+                            <td th:text="${#dates.format(row.updateDate, 'dd/MM/yyyy HH:mm:ss')}">Updated Time</td>
+                            <td class="d-flex" style="column-gap: 5px">
+                                <a class="btn btn-pink action" th:href="@{__${#httpServletRequest.requestURI}__/showGlobalForm(code=${row.code})}"><i class="fas fa-pencil"></i></a>
+                                <a class="btn btn-pink action" th:onclick="'javascript:openDeleteModal(\''+ __${row.code}__ + '\');'"><i class="fas fa-trash-can"></i></a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(listGlobal)}">
+                            <td colspan="6" class="text-center">[[#{msg.not.matching}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:replace="fragments/table.html :: tablePaging('admin/global', ${listGlobal})">Table paging</div>
+            </div>
+        </div>
+        <!--Modal-->
+        <div th:fragment="modal-del" id="delModalHolder"></div>
+    </main>
+    <th:block id="js-resources">
+        <script th:inline="javascript" th:src="@{/js/components/admin/global.js}"></script>
+    </th:block>
+</body>
+</html>

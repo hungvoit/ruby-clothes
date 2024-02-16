@@ -1,132 +1,82 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th = "http://www.thymeleaf.org">
-<head th:replace="fragments/header.html :: extention">Header extention</head>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" th:replace="~{/layout/layout-admin :: main-fragment(
+                                                'user',
+                                                'headerNavTop',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content},
+                                                'footerAdmin'
+                                               )}">
+<head>
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/admin/user.css}"/>
+    </th:block>
+</head>
 <body>
-    <div class="d-flex">
-        <div th:replace="fragments/menu_left.html :: menuAdmin('user')">Menu Tab</div>
-        <div id="content-page">
-            <div th:replace="fragments/header.html :: headerNavTop">Header Navigation Top</div>
-            <div class="mx-5 mt-6r h-cal-footer">
-                <div th:if="${message != null}" class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-                    <span>[[${message}]]</span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="panel">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col col-sm-3 col-xs-12">
-                                <h4 class="title" th:text="#{label.userList}">Data Users List</h4>
-                            </div>
-                            <div class="col-sm-9 col-xs-12 text-right">
-                                <div class="btn_group">
-                                    <input type="text" class="form-control" th:placeholder="#{label.search}" >
-                                    <button class="btn btn-pink"><i class="ion-ios-refresh"></i></button>
-                                    <a class="btn btn-pink" th:href="@{__${#httpServletRequest.requestURI}__/showUserForm}"><i class="ion-android-add-circle"></i></a>
-                                </div>
+    <main id="main-content">
+        <div class="mx-5 mt-6r h-cal-footer">
+            <th:block th:replace="~{fragments/header :: alert(${message})}">Alert</th:block>
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col col-sm-3 col-xs-12">
+                            <h4 class="title" th:text="#{label.userList}">Data Users List</h4>
+                        </div>
+                        <div class="col-sm-9 col-xs-12 text-right">
+                            <div class="btn_group">
+                                <input type="text" class="form-control" th:placeholder="#{label.search}" >
+                                <button class="btn btn-pink"><i class="ion-ios-refresh"></i></button>
+                                <a class="btn btn-pink" th:href="@{__${#httpServletRequest.requestURI}__/showUserForm}"><i class="ion-android-add-circle"></i></a>
                             </div>
                         </div>
                     </div>
-                    <div class="panel-body table-responsive">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th th:text="#{label.id}">Id</th>
-                                <th th:text="#{label.firstName}">First Name</th>
-                                <th th:text="#{label.lastName}">Last Name</th>
-                                <th th:text="#{label.email}">Email</th>
-                                <th th:text="#{label.phone}">Phone</th>
-                                <th th:text="#{label.role}">Role</th>
-                                <th th:text="#{label.status}">Status</th>
-                                <th th:text="#{label.registerDate}">Register Date</th>
-                                <th th:text="#{label.action}">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:unless="${#lists.isEmpty(lstCustomerUsers)}" th:each="row: ${lstCustomerUsers}">
-                                <td th:text="${row.id}">0</td>
-                                <td th:text="${row.firstName}">First Name</td>
-                                <td th:text="${row.lastName}">Last Name</td>
-                                <td th:text="${row.email}">Email</td>
-                                <td th:text="${row.phone}">Phone</td>
-                                <td th:text="${row.role.name}">Role</td>
-                                <td th:text="${row.status}">Status</td>
-                                <td th:text="${#dates.format(row.createDate, 'dd/MM/yyyy HH:mm:ss')}">Register Date</td>
-                                <td class="d-flex" style="column-gap: 5px">
-                                    <a class="btn btn-pink action" th:href="@{__${#httpServletRequest.requestURI}__/showUserForm/(id=${row.id})}"><i class="fas fa-pencil"></i></a>
-                                    <a class="btn btn-pink action" th:onclick="'javascript:openDeleteModal(\''+ __${row.id}__ + '\');'"><i class="fas fa-trash-can"></i></a>
-                                    <a class="btn btn-pink action" th:onclick="'javascript:openResetPasswordModal(\''+ __${row.id}__ + '\');'"><i class="fas fa-arrows-rotate"></i></a>
-                                </td>
-                            </tr>
-                            <tr th:if="${#lists.isEmpty(lstCustomerUsers)}">
-                                <td colspan="6" class="text-center">[[#{msg.not.matching}]]</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div th:replace="fragments/table.html :: tablePaging('users', ${lstCustomerUsers})">Table paging</div>
                 </div>
+                <div class="panel-body table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th th:text="#{label.id}">Id</th>
+                            <th th:text="#{label.firstName}">First Name</th>
+                            <th th:text="#{label.lastName}">Last Name</th>
+                            <th th:text="#{label.email}">Email</th>
+                            <th th:text="#{label.phone}">Phone</th>
+                            <th th:text="#{label.role}">Role</th>
+                            <th th:text="#{label.status}">Status</th>
+                            <th th:text="#{label.registerDate}">Register Date</th>
+                            <th th:text="#{label.action}">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:unless="${#lists.isEmpty(lstCustomerUsers)}" th:each="row: ${lstCustomerUsers}">
+                            <td th:text="${row.id}">0</td>
+                            <td th:text="${row.firstName}">First Name</td>
+                            <td th:text="${row.lastName}">Last Name</td>
+                            <td th:text="${row.email}">Email</td>
+                            <td th:text="${row.phone}">Phone</td>
+                            <td th:text="${row.role.name}">Role</td>
+                            <td th:text="${row.status}">Status</td>
+                            <td th:text="${#dates.format(row.createDate, 'dd/MM/yyyy HH:mm:ss')}">Register Date</td>
+                            <td class="d-flex" style="column-gap: 5px">
+                                <a class="btn btn-pink action" th:href="@{__${#httpServletRequest.requestURI}__/showUserForm(id=${row.id})}"><i class="fas fa-pencil"></i></a>
+                                <a class="btn btn-pink action" th:onclick="'javascript:openDeleteModal(\''+ __${row.id}__ + '\');'"><i class="fas fa-trash-can"></i></a>
+                                <a class="btn btn-pink action" th:onclick="'javascript:openResetPasswordModal(\''+ __${row.id}__ + '\');'"><i class="fas fa-arrows-rotate"></i></a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(lstCustomerUsers)}">
+                            <td colspan="6" class="text-center">[[#{msg.not.matching}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:replace="fragments/table.html :: tablePaging('users', ${lstCustomerUsers})">Table paging</div>
             </div>
-            <div th:replace="fragments/header.html :: footerNav">Footer Navigation</div>
-            <!--Modal-->
-            <div th:fragment="modal-del" id="delModalHolder"></div>
-            <div th:fragment="modal-reset-password" id="resetPasswordModalHolder"></div>
         </div>
-    </div>
+        <!--Modal-->
+        <div th:fragment="modal-del" id="delModalHolder"></div>
+        <div th:fragment="modal-reset-password" id="resetPasswordModalHolder"></div>
+    </main>
+    <th:block id="js-resources">
+        <script th:inline="javascript" th:src="@{/js/components/admin/user.js}"></script>
+    </th:block>
 </body>
-<script th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/js/jquery.validate.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/popper.min.js}"></script>
-<script th:src="@{/js/main.js}"></script>
-<script th:inline="javascript">
-    function openDeleteModal(id){
-        $.ajax({
-            type:'GET',
-            url: "/modal-del/" + id,
-            data:{ tabName: 'user'},
-            success: function(data){
-                $("#delModalHolder").html(data);
-                $('#delModal_user').modal({
-                    backdrop: 'static'
-                });
-            }
-        });
-    }
-
-    function openResetPasswordModal(id){
-        $.ajax({
-            type:'GET',
-            url: "/modal-reset-password/" + id,
-            success: function(data){
-                $("#resetPasswordModalHolder").html(data);
-                $('#resetPinModal').modal({
-                    backdrop: 'static'
-                });
-            }
-        });
-    }
-
-    function fileChangeEvent(event) {
-        var _this = this;
-        var file = event.target.files[0];
-        var formData = new FormData();
-        formData.append('uploadFile', file);
-        alert("Message" + file.name + file.lastModified + file.type + file.size);
-        $.ajax({
-            type:'POST',
-            url: '/users/user-image',
-            enctype: 'multipart/form-data',
-            contentType: false,
-            dataType : 'json',
-            cache: false,
-            timeout: 600000,
-            data: JSON.stringify(formData),
-            success: function(data){
-                alert("Upload file" + data);
-            }
-        });
-    }
-</script>
 </html>

@@ -1,7 +1,9 @@
 package com.javaguides.clothesbabies.service;
 
+import com.javaguides.clothesbabies.dto.GlobalConfigurationDto;
 import com.javaguides.clothesbabies.dto.UserDto;
 import com.javaguides.clothesbabies.model.User;
+import com.javaguides.clothesbabies.repository.GlobalConfigurationRepository;
 import com.javaguides.clothesbabies.repository.UserRepository;
 import com.javaguides.clothesbabies.util.RestTemplateBuilderUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +25,9 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GlobalConfigurationRepository configurationRepository;
 
     @Override
     public BindingResult validateUser(UserDto request, BindingResult result, String objectName, boolean isRegister) {
@@ -56,7 +61,7 @@ public class ValidationServiceImpl implements ValidationService {
             }
         }
         if (StringUtils.isNotEmpty(request.getPhone())) {
-            if (this.checkIfPhoneExist(request.getPhone())) {
+            if (request.getId() == null && this.checkIfPhoneExist(request.getPhone())) {
                 errors.rejectValue("phone", "phone", this.propertyService.getMessage("phone.exist"));
             }
             String phone = request.getPhone().replaceAll("[^\\d]", "");
@@ -113,6 +118,17 @@ public class ValidationServiceImpl implements ValidationService {
         return result;
     }
 
+    @Override
+    public BindingResult validateGlobal(GlobalConfigurationDto request,
+                                        BindingResult result) {
+        Errors errors = new BeanPropertyBindingResult(request, "global");
+        if (!request.getFlagChange() && StringUtils.isNotEmpty(request.getCode()) && this.checkIfGlobalCodeExist(request.getCode())) {
+            errors.rejectValue("code", "code", this.propertyService.getMessage("code.exist"));
+        }
+        result.addAllErrors(errors);
+        return result;
+    }
+
 
     private boolean checkIfEmailExist(String email) {
         return this.userRepository.findByPhoneOrEmail(null, email) != null;
@@ -130,5 +146,9 @@ public class ValidationServiceImpl implements ValidationService {
             return !new BCryptPasswordEncoder().matches(oldPassword, passwordDB);
         }
         return false;
+    }
+
+    private boolean checkIfGlobalCodeExist(String code) {
+        return this.configurationRepository.findByCode(code) != null;
     }
 }

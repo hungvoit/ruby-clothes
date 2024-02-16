@@ -1,81 +1,83 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th = "http://www.thymeleaf.org">
-<head th:replace="fragments/header.html :: extention"></head>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" th:replace="~{/layout/layout-admin :: main-fragment(
+                                                'user',
+                                                'headerNavTop',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content},
+                                                'footerAdmin'
+                                               )}">
+<head>
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/admin/user.css}"/>
+    </th:block>
+</head>
 <body>
-    <div class="d-flex">
-        <div th:replace="fragments/menu_left.html :: menuAdmin('user')">Menu Tab</div>
-        <div id="content-page">
-            <div th:replace="fragments/header.html :: headerNavTop">Header Navigation Top</div>
-            <div class="p-0 col-sm-8 col-lg-6 col-12 mt-6r h-cal-footer" style="margin: auto;">
-                <div class="panel">
-                    <div class="panel-heading text-center">
-                        <h4 class="title" th:text="${user.id != null} ? #{label.editUser} : #{label.createUser}"></h4>
-                    </div>
-                    <form action="#" th:action="@{/users/saveUser}" th:object="${user}" method="POST">
-                        <div class="panel-body px-5">
-                            <div class="md-form" th:if="${user.id != null}">
-                                <i class="fas fa-key prefix grey-text"></i>
-                                <input type="text" th:field="*{id}" class="form-control c-not-allow grey-text" readonly/>
-                            </div>
-                            <div class="md-form">
-                                <i class="fas fa-user-pen prefix grey-text"></i>
-                                <input type="text" th:field="*{firstName}"
-                                       th:classappend="${#fields.hasErrors('firstName')} ? 'has-error-input' : '' "
-                                       th:placeholder="#{label.firstName}" autocomplete="off" class="form-control white-text"/>
-                                <ul th:if="${#fields.hasErrors('firstName')}" class="px-4 white-text">
-                                    <li th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</li>
-                                </ul>
-                            </div>
-                            <div class="md-form">
-                                <i class="fas fa-user-pen prefix grey-text"></i>
-                                <input type="text" th:field="*{lastName}"
-                                       th:classappend="${#fields.hasErrors('lastName')} ? 'has-error-input' : '' "
-                                       th:placeholder="#{label.lastName}" autocomplete="off" class="form-control white-text">
-                                <ul th:if="${#fields.hasErrors('lastName')}" class="px-4 white-text">
-                                    <li th:each="error: ${#fields.errors('lastName')}" th:text="${error}">Validation error</li>
-                                </ul>
-                            </div>
-                            <div class="md-form">
-                                <i class="fas fa-phone prefix grey-text"></i>
-                                <input type="text" th:field="*{phone}" data-inputmask="'mask': '+99 999 999 999', 'showMaskOnHover': false, 'placeholder': '#'"
-                                       th:classappend="${#fields.hasErrors('phone')} ? 'has-error-input' : '' "
-                                       class="form-control white-text" autocomplete="off" th:placeholder="#{label.phone}"/>
-                                <ul th:if="${#fields.hasErrors('phone')}" class="px-4 white-text">
-                                    <li th:each="error: ${#fields.errors('phone')}" th:text="${error}">Validation error</li>
-                                </ul>
-                            </div>
-                            <div class="md-form">
-                                <i class="fas fa-envelope prefix grey-text"></i>
-                                <input type="text" th:field="*{email}" data-inputmask="'alias': 'email', 'showMaskOnHover': false"
-                                       th:classappend="${#fields.hasErrors('email')} ? 'has-error-input' : '' "
-                                       th:placeholder="#{label.email}" autocomplete="off" class="form-control white-text" />
-                                <ul th:if="${#fields.hasErrors('email')}" class="px-4 white-text">
-                                    <li th:each="error: ${#fields.errors('email')}" th:text="${error}">Validation error</li>
-                                </ul>
-                            </div>
-                            <div class="md-form">
-                                <i class="fas fa-users-gear prefix grey-text"></i>
-                                <select class="form-control white-text cus-select" th:field="*{role}">
-                                    <option class="black-text" th:each="role : ${T(com.javaguides.clothesbabies.dto.enums.RoleEnum).values}" th:value="${role}" th:text="${role}"></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="panel-footer text-center">
-                            <button type="submit" class="btn btn-pink p-3"><i class="fas fa-save"></i> [[#{label.save}]]</button>
-                            <a th:href="@{/users}" class="btn btn-outline-pink p-3"><i class="fas fa-circle-chevron-left"></i> [[#{link.back.listUser}]]</a>
-                        </div>
-                    </form>
+    <main id="main-content">
+        <div class="p-0 col-sm-8 col-lg-6 col-12 mt-6r h-cal-footer" style="margin: auto;">
+            <div class="panel">
+                <div class="panel-heading text-center">
+                    <h4 class="title" th:text="${user.id != null} ? #{label.edit('User')} : #{label.create('User')}"></h4>
                 </div>
+                <form th:object="${user}" method="post" th:action="@{/api/admin/users}"  id="formUser">
+                    <div class="panel-body px-5">
+                        <div class="md-form" th:if="${user.id != null}">
+                            <i class="fas fa-key prefix grey-text"></i>
+                            <input type="text" th:field="*{id}" class="form-control c-not-allow grey-text" readonly/>
+                        </div>
+                        <div class="md-form">
+                            <i class="fas fa-user-pen prefix grey-text"></i>
+                            <input type="text" th:field="*{firstName}"
+                                   th:classappend="${#fields.hasErrors('firstName')} ? 'has-error-input' : '' "
+                                   th:placeholder="#{label.firstName}" autocomplete="off" class="form-control white-text"/>
+                            <ul th:if="${#fields.hasErrors('firstName')}" class="px-4 white-text">
+                                <li th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</li>
+                            </ul>
+                        </div>
+                        <div class="md-form">
+                            <i class="fas fa-user-pen prefix grey-text"></i>
+                            <input type="text" th:field="*{lastName}"
+                                   th:classappend="${#fields.hasErrors('lastName')} ? 'has-error-input' : '' "
+                                   th:placeholder="#{label.lastName}" autocomplete="off" class="form-control white-text">
+                            <ul th:if="${#fields.hasErrors('lastName')}" class="px-4 white-text">
+                                <li th:each="error: ${#fields.errors('lastName')}" th:text="${error}">Validation error</li>
+                            </ul>
+                        </div>
+                        <div class="md-form">
+                            <i class="fas fa-phone prefix grey-text"></i>
+                            <input type="text" th:field="*{phone}" data-inputmask="'mask': '+99 999 999 999', 'showMaskOnHover': false, 'placeholder': '#'"
+                                   th:classappend="${#fields.hasErrors('phone')} ? 'has-error-input' : '' "
+                                   class="form-control white-text" autocomplete="off" th:placeholder="#{label.phone}"/>
+                            <ul th:if="${#fields.hasErrors('phone')}" class="px-4 white-text">
+                                <li th:each="error: ${#fields.errors('phone')}" th:text="${error}">Validation error</li>
+                            </ul>
+                        </div>
+                        <div class="md-form">
+                            <i class="fas fa-envelope prefix grey-text"></i>
+                            <input type="text" th:field="*{email}" data-inputmask="'alias': 'email', 'showMaskOnHover': false"
+                                   th:classappend="${#fields.hasErrors('email')} ? 'has-error-input' : '' "
+                                   th:placeholder="#{label.email}" autocomplete="off" class="form-control white-text" />
+                            <ul th:if="${#fields.hasErrors('email')}" class="px-4 white-text">
+                                <li th:each="error: ${#fields.errors('email')}" th:text="${error}">Validation error</li>
+                            </ul>
+                        </div>
+                        <div class="md-form">
+                            <i class="fas fa-users-gear prefix grey-text"></i>
+                            <select class="form-control white-text cus-select" th:field="*{role}">
+                                <option class="black-text" th:each="role : ${T(com.javaguides.clothesbabies.dto.enums.RoleEnum).values}" th:value="${role}" th:text="${role}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button type="submit" class="btn btn-pink p-3"><i class="fas fa-save"></i> [[#{label.save}]]</button>
+                        <a th:href="@{/admin/users}" class="btn btn-outline-pink p-3"><i class="fas fa-circle-chevron-left"></i> [[#{link.back.list('User')}]]</a>
+                    </div>
+                </form>
             </div>
-            <div th:replace="fragments/header.html :: footerNav">Footer Navigation</div>
         </div>
-    </div>
+    </main>
+    <th:block id="js-resources">
+        <script th:inline="javascript" th:src="@{/js/components/admin/user.js}"></script>
+    </th:block>
 </body>
-<script th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/jquery.inputmask.min.js}"></script>
-<script th:src="@{/js/main.js}"></script>
-<script>
-    $(":input").inputmask();
-</script>
 </html>

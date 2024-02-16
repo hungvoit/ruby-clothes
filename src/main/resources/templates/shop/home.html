@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout :: main-fragment(
+                                                'full-header',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content},
+                                                ''
+                                               )}">
+    <head>
+        <th:block id="css-resources">
+            <link rel="stylesheet" type="text/css" th:href="@{/css/components/home.css}"/>
+        </th:block>
+    </head>
+    <body>
+        <main id="main-content">
+            <div class="container" style="padding-top: 5rem;">
+
+                <!--Slide Image-->
+                <div class="position-relative">
+                    <div class="owl-carousel" id="idOwlCarouselSlide">
+                        <div class="position-relative"><img class="carousel-img" src="" th:src="@{/images/logo-shop.png}" alt=""></div>
+                        <div class="position-relative"><img class="carousel-img" src="" th:src="@{/images/login_banner_left.webp}" alt=""></div>
+                    </div>
+                    <div class="position-absolute carousel-btn">
+                        <i class="d-block stop fa fa-pause-circle c-pointer pink-text"></i>
+                        <i class="d-none play fa fa-play-circle c-pointer pink-text"></i>
+                    </div>
+                </div>
+
+                <!--Utilities & Services-->
+                <div class="my-4 white p-4">
+                    <div class="d-flex justify-content-between align-center pb-3">
+                        <span class="font-weight-bold pink-text fa-xl" th:text="#{label.utilities.services}"></span>
+                    </div>
+                    <div style="max-height: 110px;" class="position-relative">
+                        <div class="owl-carousel" id="idOwlCarouselServices">
+                            <!--Service 1-->
+                            <div class="text-center cus-carousel-item m-2 py-2">
+                                <a href="https://concung.com/tim-sieu-thi.html" class="position-relative d-inline-block font-weight-500" tabindex="0">
+                                    <span style="min-height: 60px" class="d-block mb-3">
+                                        <img class="img-fluid d-block mx-auto" style="max-width:60px; max-height:60px;" src="https://cdn1.concung.com/img/res/img_label/sieu_thi_con_cung.png" alt="">
+                                    </span>
+                                    <span class="font-weight-bold pink-text line-one" style="line-height:17px;" th:text="#{label.position.shop}"></span>
+                                    <span class="service-notify">1</span>
+                                </a>
+                            </div>
+                            <!--Service 2-->
+                            <div class="text-center cus-carousel-item m-2 py-2">
+                                <a href="https://concung.com/tim-sieu-thi.html" class="position-relative d-inline-block font-weight-500" tabindex="0">
+                                    <span style="min-height: 60px" class="d-block mb-3">
+                                        <img class="img-fluid d-block mx-auto" style="max-width:60px; max-height:60px;" src="https://cdn1.concung.com/img/res/img_label/cskh_goi_dien.png" alt="">
+                                    </span>
+                                    <span class="font-weight-bold pink-text line-one" style="line-height:17px;" th:text="#{label.cskh.call}"></span>
+                                </a>
+                            </div>
+                            <!--Service 3-->
+                            <div class="text-center cus-carousel-item m-2 py-2">
+                                <a href="https://concung.com/tim-sieu-thi.html" class="position-relative d-inline-block font-weight-500" tabindex="0">
+                                    <span style="min-height: 60px" class="d-block mb-3">
+                                        <img class="img-fluid d-block mx-auto" style="max-width:60px; max-height:60px;" src="https://cdn1.concung.com/img/res/img_label/tien_tich_luy.png" alt="">
+                                    </span>
+                                    <span class="font-weight-bold pink-text line-one" style="line-height:17px;" th:text="#{label.money.accumulate}"></span>
+                                </a>
+                            </div>
+                            <!--Service 4-->
+                            <div class="text-center cus-carousel-item m-2 py-2">
+                                <a href="https://concung.com/tim-sieu-thi.html" class="position-relative d-inline-block font-weight-500" tabindex="0">
+                                    <span style="min-height: 60px" class="d-block mb-3">
+                                        <img class="img-fluid d-block mx-auto" style="max-width:60px; max-height:60px;" src="https://cdn1.concung.com/img/res/img_label/me_bau_em_be_3.png" alt="">
+                                    </span>
+                                    <span class="font-weight-bold pink-text line-one" style="line-height:17px;" th:text="#{label.mother.baby}"></span>
+                                </a>
+                            </div>
+                            <!--Service 5-->
+                            <div class="text-center cus-carousel-item m-2 py-2">
+                                <a href="https://concung.com/tim-sieu-thi.html" class="position-relative d-inline-block font-weight-500" tabindex="0">
+                                    <span style="min-height: 60px" class="d-block mb-3">
+                                        <img class="img-fluid d-block mx-auto" style="max-width:60px; max-height:60px;" src="https://cdn1.concung.com/img/res/img_label/repurchase.png" alt="">
+                                    </span>
+                                    <span class="font-weight-bold pink-text line-one" style="line-height:17px;" th:text="#{label.orders}"></span>
+                                </a>
+                            </div>
+                            <!--Service 6-->
+                            <div class="text-center cus-carousel-item m-2 py-2">
+                                <a href="https://concung.com/tim-sieu-thi.html" class="position-relative d-inline-block font-weight-500" tabindex="0">
+                                    <span style="min-height: 60px" class="d-block mb-3">
+                                        <img class="img-fluid d-block mx-auto" style="max-width:60px; max-height:60px;" src="https://cdn1.concung.com/img/res/img_label/freeship.png" alt="">
+                                    </span>
+                                    <span class="font-weight-bold pink-text line-one" style="line-height:17px;" th:text="#{label.products.freeship}"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Item Flash Sale-->
+                <div class="my-4 white p-4">
+                    <div class="d-flex justify-content-between align-center pb-3">
+                        <img class="section_flash_sale" width="200" height="50" alt="Flash Sale" src="//bizweb.dktcdn.net/100/495/928/themes/921279/assets/flash.png?1702948302947">
+                        <div id="countdown" class="d-flex align-center text-center"></div>
+                        <button class="btn btn-pink btn-md">[[#{label.seeAll}]]<i class="fa-solid fa-angles-right ml-1"></i></button>
+                    </div>
+                    <div class="owl-carousel" id="idOwlCarouselFlashSale">
+                        <div class="product-grid add-shadow m-2">
+                            <div class="product-image">
+                                <a href="#" class="image d-block">
+                                    <img class="pic-1" src="https://bestjquery.com/tutorial/product-grid/demo283/images/img-1.jpg">
+                                    <img class="pic-2" src="https://bestjquery.com/tutorial/product-grid/demo283/images/img-2.jpg">
+                                </a>
+                                <div class="freeship">
+                                    <img width="460" height="130" class="lazyload image1 loaded" src="//bizweb.dktcdn.net/100/495/928/themes/921279/assets/icon_tag_1.png?1702948302947" alt="Siêu sale">
+                                </div>
+                                <span class="product-discount-label">-33%</span>
+                                <ul id="itemFlashSale" class="product-links">
+                                    <li><a href="#"><i class="far fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-search"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-random"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product-content white">
+                                <h3 class="title line-one"><a href="#">Women's Top</a></h3>
+                                <div class="price"><span>$89.99</span> $59.99</div>
+                                <a href="#" class="add-to-cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Coupon-->
+                <div class="my-4">
+
+                </div>
+
+                <!--Item Newest Product-->
+                <div class="my-4 white p-4">
+                    <div class="d-flex justify-content-between align-center">
+                        <span class="font-weight-bold pink-text fa-xl" th:text="#{label.newest.product}"></span>
+                        <button class="btn btn-pink btn-md">[[#{label.seeAll}]]<i class="fa-solid fa-angles-right ml-1"></i></button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-grid add-shadow">
+                                <div class="product-image">
+                                    <a href="#" class="image d-block">
+                                        <img class="pic-1" src="https://bestjquery.com/tutorial/product-grid/demo283/images/img-1.jpg">
+                                        <img class="pic-2" src="https://bestjquery.com/tutorial/product-grid/demo283/images/img-2.jpg">
+                                    </a>
+                                    <span class="product-discount-label">-12%</span>
+                                    <ul id="itemNewest" class="product-links">
+                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-random"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="title line-one" data-toggle="tooltip" data-placement="right" title="Tooltip on right"><a href="#">Women's Top</a></h3>
+                                    <ul class="rating">
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                        <li>(0)</li>
+                                    </ul>
+                                    <div class="price">$24.99 <span>$34.99</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-grid add-shadow">
+                                <div class="product-image">
+                                    <a href="#" class="image d-block">
+                                        <img class="pic-1" src="https://bestjquery.com/tutorial/product-grid/demo283/images/img-1.jpg">
+                                        <img class="pic-2" src="https://bestjquery.com/tutorial/product-grid/demo283/images/img-2.jpg">
+                                    </a>
+                                    <span class="product-discount-label">-12%</span>
+                                    <ul id="itemNewest" class="product-links">
+                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-random"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="title line-one" data-toggle="tooltip" data-placement="right" title="Tooltip on right"><a href="#">Women's Top</a></h3>
+                                    <ul class="rating">
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                        <li>(0)</li>
+                                    </ul>
+                                    <div class="price">$24.99 <span>$34.99</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-grid add-shadow">
+                                <div class="product-image">
+                                    <a href="#" class="image d-block">
+                                        <img class="pic-1" src="https://bestjquery.com/tutorial/product-grid/demo283/images/img-1.jpg">
+                                        <img class="pic-2" src="https://bestjquery.com/tutorial/product-grid/demo283/images/img-2.jpg">
+                                    </a>
+                                    <span class="product-discount-label">-12%</span>
+                                    <ul id="itemNewest" class="product-links">
+                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-random"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="title line-one" data-toggle="tooltip" data-placement="right" title="Tooltip on right"><a href="#">Women's Top</a></h3>
+                                    <ul class="rating">
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                        <li>(0)</li>
+                                    </ul>
+                                    <div class="price">$24.99 <span>$34.99</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-grid add-shadow">
+                                <div class="product-image">
+                                    <a href="#" class="image d-block">
+                                        <img class="pic-1" src="https://bestjquery.com/tutorial/product-grid/demo283/images/img-1.jpg">
+                                        <img class="pic-2" src="https://bestjquery.com/tutorial/product-grid/demo283/images/img-2.jpg">
+                                    </a>
+                                    <span class="product-discount-label">-12%</span>
+                                    <ul id="itemNewest" class="product-links">
+                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-random"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="title line-one" data-toggle="tooltip" data-placement="right" title="Tooltip on right"><a href="#">Women's Top</a></h3>
+                                    <ul class="rating">
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="fas fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                        <li class="far fa-star"></li>
+                                        <li>(0)</li>
+                                    </ul>
+                                    <div class="price">$24.99 <span>$34.99</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Banner 1-->
+                <div class="my-4" style="max-height: 185px;">
+                    <img class="w-webkit" alt="Giảm giá" src="//bizweb.dktcdn.net/100/459/160/themes/867807/assets/bannerlarge.jpg?1694158297896">
+                </div>
+
+            </div>
+        </main>
+        <th:block id="js-resources">
+            <script type="text/javascript" th:src="@{/js/components/home.js}"></script>
+        </th:block>
+    </body>
+</html>

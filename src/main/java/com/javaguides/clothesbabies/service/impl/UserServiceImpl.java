@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -219,7 +220,8 @@ public class UserServiceImpl implements UserService {
         return url;
     }
 
-    private void sendEmail(List<String> codes, String email, String tempPassword){
+    @Async
+    protected void sendEmail(List<String> codes, String email, String tempPassword){
         Map<String, String> mapConfig = this.globalConfigurationServiceImpl.getConfigByListCode(codes);
         String msgText = mapConfig.get(codes.get(0));
         String subText = mapConfig.get(codes.get(1));

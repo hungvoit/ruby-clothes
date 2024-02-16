@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" th:replace="~{/layout/layout-admin :: main-fragment(
+                                                'global',
+                                                'headerNavTop',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content},
+                                                'footerAdmin'
+                                               )}">
+<head>
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/admin/category.css}"/>
+    </th:block>
+</head>
+<body>
+    <main id="main-content">
+        <div class="mx-5 mt-6r h-cal-footer">
+            <th:block th:replace="~{fragments/header :: alert(${message})}">Alert</th:block>
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-12">
+                            <h4 class="title" th:text="#{label.data('categories')}"></h4>
+                        </div>
+                        <div class="col-sm-9 col-xs-12 text-right">
+                            <div class="btn_group">
+                                <input type="text" class="form-control" th:placeholder="#{label.search}" >
+                                <button class="btn btn-pink"><i class="ion-ios-refresh"></i></button>
+                                <button class="btn btn-pink" data-toggle="modal" data-target="#modal-category"><i class="ion-android-add-circle"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th th:text="#{label.parentId}">ParentId</th>
+                            <th th:text="#{label.code}">Code</th>
+                            <th class="w-20" th:text="#{label.name}">Name</th>
+                            <th th:text="#{label.createTime}">Creation Time</th>
+                            <th th:text="#{label.updateTime}">Updated Time</th>
+                            <th th:text="#{label.action}">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:unless="${#lists.isEmpty(listCategories)}" th:each="row: ${listCategories}">
+                            <td th:text="${row.parentId}">0</td>
+                            <td th:text="${row.code}">0</td>
+                            <td class="line-one" th:text="${row.name}">Name</td>
+                            <td th:text="${#dates.format(row.createDate, 'dd/MM/yyyy HH:mm:ss')}">Creation Time</td>
+                            <td th:text="${#dates.format(row.updateDate, 'dd/MM/yyyy HH:mm:ss')}">Updated Time</td>
+                            <td class="d-flex" style="column-gap: 5px">
+                                <a class="btn btn-pink action" onclick="showUpdateCategory(this)" th:data-id="${row.id}"><i class="fas fa-pencil"></i></a>
+                                <a class="btn btn-pink action" th:onclick="'javascript:openDeleteModal(\''+ __${row.id}__ + '\');'"><i class="fas fa-trash-can"></i></a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(listCategories)}">
+                            <td colspan="6" class="text-center">[[#{msg.not.matching}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:replace="fragments/table.html :: tablePaging('admin/categories', ${listCategories})">Table paging</div>
+            </div>
+        </div>
+        <!--Modal-->
+        <div th:fragment="modal-del" id="delModalHolder"></div>
+
+        <div class="modal fade" id="modal-category" tabindex="-1" role="dialog" aria-labelledby="modalAddNewCategory"
+             aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="panel">
+                    <div class="panel-heading text-center">
+                        <h4 class="title" th:text="#{label.category}"></h4>
+                    </div>
+                    <form th:object="${category}" id="formCategory" method="post">
+                        <input type="hidden" th:field="*{id}"/>
+                        <div class="panel-body px-5">
+                            <div class="md-form">
+                                <i class="fa fa-id-badge prefix grey-text"></i>
+                                <select class="form-control white-text cus-select" id="parentId"></select>
+                            </div>
+                            <div class="md-form">
+                                <i class="fa fa-code prefix grey-text"></i>
+                                <input type="text" th:field="*{code}" th:placeholder="#{label.code}"
+                                       autocomplete="off" class="form-control" style="color: #ffffff;"/>
+                            </div>
+                            <div class="md-form">
+                                <i class="fas fa-file-signature prefix grey-text"></i>
+                                <input type="text" th:field="*{name}" th:placeholder="#{label.name}"
+                                       autocomplete="off" class="form-control" style="color: #ffffff;"/>
+                            </div>
+                        </div>
+                        <div class="panel-footer text-center">
+                            <button type="submit" class="btn btn-pink p-3"><i class="fas fa-save"></i> [[#{label.save}]]</button>
+                            <a th:href="@{/admin/categories}" class="btn btn-outline-pink p-3"><i class="fas fa-circle-chevron-left"></i> [[#{link.back.list('Category')}]]</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <th:block id="js-resources">
+        <script th:inline="javascript" th:src="@{/js/components/admin/category.js}"></script>
+    </th:block>
+</body>
+</html>

@@ -1,0 +1,11 @@
+.custom_eye {
+    position: absolute;
+    right: 10px;
+    top: 14px;
+    cursor: pointer;
+}
+
+.size-checkbox {
+    width: 20px;
+    height: 20px;
+}

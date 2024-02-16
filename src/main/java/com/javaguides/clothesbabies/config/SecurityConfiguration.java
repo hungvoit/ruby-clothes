@@ -1,5 +1,6 @@
 package com.javaguides.clothesbabies.config;
 
+import com.javaguides.clothesbabies.security.CustomLogoutSuccessHandler;
 import com.javaguides.clothesbabies.security.LoginSuccessHandler;
 import com.javaguides.clothesbabies.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.authentication.session.*;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -43,6 +46,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
     private LoginSuccessHandler successHandler;
 
     @Autowired
+    private CustomLogoutSuccessHandler customlogoutSuccessHandler;
+
+    @Autowired
     @Qualifier("dataSource")
     private DataSource dataSource;
 
@@ -61,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 
     @Override
     public void configure(WebSecurity webSecurity) throws Exception {
-        webSecurity.ignoring().antMatchers("/images/**", "/css/**", "/js/**");
+        webSecurity.ignoring().antMatchers("/images/**", "/css/**", "/js/**", "/vendor/**");
     }
 
     @Override
@@ -71,10 +77,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/registration**").permitAll()
-                .antMatchers("/users**").permitAll()
-                .anyRequest()
-                .authenticated()
+        http
+                .cors()
+                .and()
+                .csrf()
+                .disable()
+                .authorizeRequests()
+                .antMatchers("/admin**", "/api/admin**").hasAnyAuthority("ADMIN")
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -95,7 +105,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login?logout").permitAll())
+                        .logoutSuccessHandler(customlogoutSuccessHandler).permitAll())
                 .exceptionHandling().accessDeniedPage("/403")
                 .and()
                 .rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(7 * 24 * 60 * 60);
@@ -144,6 +154,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
+        registry.addInterceptor(localeChangeInterceptor()).excludePathPatterns("/image/**", "/css/**", "/script/**", "/api/**", "/vendor/**");;
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("authorization", "content-type", "x-auth-token")
+                .exposedHeaders("x-auth-token")
+                .allowCredentials(false).maxAge(3600);
     }
 }

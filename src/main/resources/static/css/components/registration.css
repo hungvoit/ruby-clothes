@@ -1,0 +1,4 @@
+.disabled {
+    color: #cacaca;
+    cursor: not-allowed !important;
+}

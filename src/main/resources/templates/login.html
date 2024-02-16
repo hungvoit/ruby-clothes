@@ -1,57 +1,29 @@
 <!DOCTYPE html>
-<html class="h-100" lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th = "http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/layout :: main-fragment(
+                                                 '',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content},
+                                                ''
+                                               )}">
 <head>
-    <meta charset="UTF-8">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <style>
-        .container {
-            display: flex;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .content-form {
-            box-shadow: 0 -5px 10px #0000001f, 0 5px 10px #0000001f;
-            background: #ffffff;
-            background-clip: content-box;
-            opacity: 0.9;
-            flex: 1;
-        }
-
-        .custom_eye {
-            position: absolute;
-            right: 10px;
-            top: 14px;
-            cursor: pointer;
-        }
-
-        .size-checkbox {
-            width: 20px;
-            height: 20px;
-        }
-
-    </style>
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/login.css}"/>
+    </th:block>
 </head>
-<body class="h-100">
+<body>
+<main id="main-content">
     <div class="container">
         <div class="row p-2 content-form">
             <div class="col-6 card-body">
                 <form th:action="@{/login}" method="post">
                     <!--Form log in-->
                     <div class="d-flex justify-center">
-                        <img th:src="@{/images/logo-shop.png}" width="150" height="150">
+                        <a href="/"><img src="" th:src="@{/images/logo-shop.png}" width="150" height="150"></a>
                     </div>
                     <!--Error message-->
                     <div th:if="${param.error}" class="text-center">
                         <div class="alert alert-warning"><i class="fa fa-exclamation-circle"></i> [[#{msg.invalid.login}]]</div>
-                    </div>
-                    <!--Logout message-->
-                    <div th:if="${param.logout}" class="text-center">
-                        <div class="alert alert-info"><i class="fas fa-circle-check"></i> [[#{msg.logout}]]</div>
                     </div>
                     <div class="form-group">
                         <label for="userName" class="font-weight-bold">[[#{label.username}]]<span class="text-danger">*</span>:</label>
@@ -66,7 +38,7 @@
                             <span class="fas fa-eye custom_eye" id="togglePassword" tabindex="0"></span>
                         </div>
                     </div>
-                    <button type="submit" id="login-submit" name="login-submit" class="btn custom-btn"><i class="fa fa-sign-in mr-2"></i>[[#{label.signIn}]]</button>
+                    <button type="submit" id="login-submit" name="login-submit" class="btn custom-btn"><i class="fa fa-sign-in-alt mr-2"></i>[[#{label.signIn}]]</button>
                     <div class="d-flex my-1 justify-center">
                         <input type="checkbox" id="remember-me" name="remember-me" class="size-checkbox c-pointer mr-1">
                         <label for="remember-me" class="font-weight-bold m-0 c-pointer">[[#{link.remember}]]</label>
@@ -82,27 +54,9 @@
             </div>
         </div>
     </div>
+</main>
+<th:block id="js-resources">
+    <script type="text/javascript" th:src="@{/js/components/login.js}"></script>
+</th:block>
 </body>
-<script th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script>
-    $('#togglePassword').click(function() {
-        var eyeIcon = $(this);
-        var pwdInput = $('#password');
-        pwdInput.off('blur');
-        if (eyeIcon.hasClass('fa-eye')) {
-            eyeIcon.removeClass('fa-eye').addClass('fa-eye-slash');
-            pwdInput.attr('type', 'text').focus();
-            pwdInput.one('blur', function(e) {
-                if ($(e.relatedTarget).attr('id') !== 'togglePassword') {
-                    pwdInput.attr('type', 'password');
-                    eyeIcon.removeClass("fa-eye-slash").addClass('fa-eye');
-                }
-            });
-        } else {
-            eyeIcon.removeClass('fa-eye-slash').addClass('fa-eye');
-            pwdInput.attr('type', 'password');
-        }
-    });
-</script>
 </html>

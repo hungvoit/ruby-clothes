@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" th:replace="~{/layout/layout-admin :: main-fragment(
+                                                'global',
+                                                'headerNavTop',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content},
+                                                'footerAdmin'
+                                               )}">
+<head>
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/admin/global.css}"/>
+    </th:block>
+</head>
+<body>
+    <main id="main-content">
+        <div class="p-0 col-sm-8 col-lg-6 col-12 mt-6r h-cal-footer" style="margin: auto;">
+            <div class="panel">
+                <div class="panel-heading text-center">
+                    <h4 class="title" th:text="${code != null} ? #{label.edit('Global')} : #{label.create('Global')}"></h4>
+                </div>
+                <form th:object="${global}" id="formGlobal" method="post">
+                    <div class="panel-body px-5">
+                        <input type="hidden" th:field="*{flagChange}"/>
+                        <div class="md-form">
+                            <i class="fas fa-key prefix grey-text"></i>
+                            <input type="text" th:field="*{code}" th:placeholder="#{label.code}"
+                                   autocomplete="off" class="form-control" style="color: #ffffff;"
+                                   th:classappend=" ${global.flagChange == true ? 'c-not-allow' : ''}"
+                                   th:readonly="${global.flagChange} == true"/>
+                        </div>
+                        <div class="md-form">
+                            <i class="fas fa-file-signature prefix grey-text"></i>
+                            <input type="text" th:field="*{value}" th:placeholder="#{label.value}"
+                                   autocomplete="off" class="form-control" style="color: #ffffff;"/>
+                        </div>
+                        <div class="md-form">
+                            <i class="fas fa-bookmark prefix grey-text"></i>
+                            <input type="text" th:field="*{description}" th:placeholder="#{label.description}"
+                                   autocomplete="off" class="form-control" style="color: #ffffff;"/>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button type="submit" class="btn btn-pink p-3"><i class="fas fa-save"></i> [[#{label.save}]]</button>
+                        <a th:href="@{/admin/global}" class="btn btn-outline-pink p-3"><i class="fas fa-circle-chevron-left"></i> [[#{link.back.list('Global')}]]</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <th:block id="js-resources">
+        <script th:inline="javascript" th:src="@{/js/components/admin/global.js}"></script>
+    </th:block>
+</body>
+</html>
